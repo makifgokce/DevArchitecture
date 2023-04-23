@@ -17,9 +17,11 @@ namespace Business.Handlers.Authorizations.Commands
 {
     public class RegisterUserCommand : IRequest<IResult>
     {
+        public string Account { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string FullName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
 
         public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, IResult>
@@ -40,21 +42,26 @@ namespace Business.Handlers.Authorizations.Commands
             public async Task<IResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
             {
                 var isThereAnyUser = await _userRepository.GetAsync(u => u.Email == request.Email);
-
+                var isThereAnyAccount = await _userRepository.GetAsync(u => u.Account == request.Account);
                 if (isThereAnyUser != null)
                 {
                     return new ErrorResult(Messages.NameAlreadyExist);
+                }
+                if (isThereAnyAccount != null)
+                {
+                    return new ErrorResult(Messages.AccountAlreadyExist);
                 }
 
                 HashingHelper.CreatePasswordHash(request.Password, out var passwordSalt, out var passwordHash);
                 var user = new User
                 {
                     Email = request.Email,
-
-                    FullName = request.FullName,
+                    Account = request.Account,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
-                    Status = true
+                    Status = User.UserStatus.NotActivated
                 };
 
                 _userRepository.Add(user);

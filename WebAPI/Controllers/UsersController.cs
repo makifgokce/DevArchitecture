@@ -55,10 +55,10 @@ namespace WebAPI.Controllers
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute]int userId)
+        [HttpGet("{account}")]
+        public async Task<IActionResult> GetById([FromRoute]string account)
         {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetUserQuery { UserId = userId }));
+            return GetResponseOnlyResultData(await Mediator.Send(new GetUserQuery { Account = account }));
         }
 
         /// <summary>
@@ -85,25 +85,25 @@ namespace WebAPI.Controllers
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id,[FromBody] UpdateUserDto updateUserDto)
+        [HttpPut("{account}")]
+        public async Task<IActionResult> Update([FromRoute] string account, [FromBody] UpdateUserDto updateUserDto)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateUserCommand{UserId = id,Email = updateUserDto.Email,FullName = updateUserDto.FullName, MobilePhones = updateUserDto.MobilePhones, Address = updateUserDto.Address,Notes = updateUserDto.Notes}));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateUserCommand{Account = account,Email = updateUserDto.Email, FirstName = updateUserDto.FirstName, LastName = updateUserDto.LastName, MobilePhones = updateUserDto.MobilePhones, Address = updateUserDto.Address,Notes = updateUserDto.Notes}));
         }
 
         /// <summary>
         /// Delete User.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="account"></param>
         /// <returns></returns>
         [Consumes("application/json")]
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        [HttpDelete("{account}")]
+        public async Task<IActionResult> Delete([FromRoute] string account)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteUserCommand{ UserId = id }));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteUserCommand{ Account = account }));
         }
     }
 }

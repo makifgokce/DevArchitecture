@@ -6,6 +6,7 @@ using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
+using static Core.Entities.Concrete.User;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -41,7 +42,7 @@ namespace DataAccess.Concrete.EntityFramework
 
         public async Task<User> GetByRefreshToken(string refreshToken)
         {
-            return await Context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken && u.Status);
+            return await Context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken && u.Status == UserStatus.Activated);
         }
     }
 }

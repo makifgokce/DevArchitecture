@@ -13,9 +13,10 @@ namespace Business.Handlers.Users.Commands
 {
     public class UpdateUserCommand : IRequest<IResult>
     {
-        public int UserId { get; set; }
         public string Email { get; set; }
-        public string FullName { get; set; }
+        public string Account { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string MobilePhones { get; set; }
         public string Address { get; set; }
         public string Notes { get; set; }
@@ -35,9 +36,10 @@ namespace Business.Handlers.Users.Commands
             [LogAspect(typeof(FileLogger))]
             public async Task<IResult> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
             {
-                var isThereAnyUser = await _userRepository.GetAsync(u => u.UserId == request.UserId);
+                var isThereAnyUser = await _userRepository.GetAsync(u => u.Account == request.Account);
 
-                isThereAnyUser.FullName = request.FullName;
+                isThereAnyUser.FirstName = request.FirstName;
+                isThereAnyUser.LastName = request.LastName;
                 isThereAnyUser.Email = request.Email;
                 isThereAnyUser.MobilePhones = request.MobilePhones;
                 isThereAnyUser.Address = request.Address;

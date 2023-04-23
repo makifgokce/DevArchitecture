@@ -13,7 +13,7 @@ namespace Business.Handlers.Users.Commands
 {
     public class UserChangePasswordCommand : IRequest<IResult>
     {
-        public int UserId { get; set; }
+        public string Account { get; set; }
         public string Password { get; set; }
 
         public class UserChangePasswordCommandHandler : IRequestHandler<UserChangePasswordCommand, IResult>
@@ -31,7 +31,7 @@ namespace Business.Handlers.Users.Commands
             [LogAspect(typeof(FileLogger))]
             public async Task<IResult> Handle(UserChangePasswordCommand request, CancellationToken cancellationToken)
             {
-                var isThereAnyUser = await _userRepository.GetAsync(u => u.UserId == request.UserId);
+                var isThereAnyUser = await _userRepository.GetAsync(u => u.Account == request.Account);
                 if (isThereAnyUser == null)
                 {
                     return new ErrorResult(Messages.UserNotFound);

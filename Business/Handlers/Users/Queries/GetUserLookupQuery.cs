@@ -10,6 +10,7 @@ using Core.Entities.Dtos;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using MediatR;
+using static Core.Entities.Concrete.User;
 
 namespace Business.Handlers.Users.Queries
 {
@@ -30,8 +31,8 @@ namespace Business.Handlers.Users.Queries
             [LogAspect(typeof(FileLogger))]
             public async Task<IDataResult<IEnumerable<SelectionItem>>> Handle(GetUserLookupQuery request, CancellationToken cancellationToken)
             {
-                var list = await _userRepository.GetListAsync(x => x.Status);
-                var userLookup = list.Select(x => new SelectionItem() { Id = x.UserId.ToString(), Label = x.FullName });
+                var list = await _userRepository.GetListAsync(x => x.Status == UserStatus.Activated);
+                var userLookup = list.Select(x => new SelectionItem() { Id = x.UserId.ToString(), Label = x.FirstName + " " + x.LastName  });
                 return new SuccessDataResult<IEnumerable<SelectionItem>>(userLookup);
             }
         }

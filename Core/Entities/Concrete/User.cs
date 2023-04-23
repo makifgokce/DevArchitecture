@@ -12,17 +12,19 @@ namespace Core.Entities.Concrete
               RecordDate = DateTime.Now;
             }
             UpdateContactDate = DateTime.Now;
-            Status = true;
+            Status = UserStatus.NotActivated;
         }
 
         public int UserId { get; set; }
         public long CitizenId { get; set; }
-        public string FullName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Account { get; set; }
         public string Email { get; set; }
         [JsonIgnore]
         public string RefreshToken { get; set; }
         public string MobilePhones { get; set; }
-        public bool Status { get; set; }
+        public UserStatus Status { get; set; }
         public DateTime BirthDate { get; set; }
         public int Gender { get; set; }
         public DateTime RecordDate { get; set; }
@@ -48,6 +50,13 @@ namespace Core.Entities.Concrete
 
             MobilePhones = mobilePhone;
             return true;
+        }
+        public enum UserStatus
+        {
+            NotActivated,
+            Activated,
+            Deleted,
+            Banned
         }
     }
 }

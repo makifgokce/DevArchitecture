@@ -29,9 +29,11 @@ namespace Business.Helpers
             var operationClaims = (await mediator.Send(new GetOperationClaimsInternalQuery())).Data;
             var user = await mediator.Send(new RegisterUserInternalCommand
             {
-                FullName = "System Admin",
+                FirstName = "System",
+                LastName = "Admin",
                 Password = "Q1w212*_*",
                 Email = "admin@adminmail.com",
+                Account = "admin",
             });
             await mediator.Send(new CreateUserClaimsInternalCommand
             {
