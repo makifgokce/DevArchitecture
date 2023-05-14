@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Business.BusinessAspects;
+﻿using Business.BusinessAspects;
 using Business.Fakes.Handlers.Authorizations;
 using Business.Fakes.Handlers.OperationClaims;
 using Business.Fakes.Handlers.UserClaims;
@@ -10,6 +6,10 @@ using Core.Utilities.IoC;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Business.Helpers
 {
@@ -29,8 +29,8 @@ namespace Business.Helpers
             var operationClaims = (await mediator.Send(new GetOperationClaimsInternalQuery())).Data;
             var user = await mediator.Send(new RegisterUserInternalCommand
             {
-                FirstName = "System",
-                LastName = "Admin",
+                Name = "System",
+                Surname = "Admin",
                 Password = "Q1w212*_*",
                 Email = "admin@adminmail.com",
                 Account = "admin",

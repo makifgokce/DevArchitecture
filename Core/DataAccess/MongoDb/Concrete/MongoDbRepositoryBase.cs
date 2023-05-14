@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Core.DataAccess.MongoDb.Concrete.Configurations;
+﻿using Core.DataAccess.MongoDb.Concrete.Configurations;
 using Core.Entities;
 using Core.Utilities.Messages;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Core.DataAccess.MongoDb.Concrete
 {

@@ -1,6 +1,6 @@
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using Newtonsoft.Json;
 
 namespace Core.Entities.Concrete
 {
@@ -8,8 +8,9 @@ namespace Core.Entities.Concrete
     {
         public User()
         {
-            if(UserId==0){
-              RecordDate = DateTime.Now;
+            if (UserId == 0)
+            {
+                RecordDate = DateTime.Now;
             }
             UpdateContactDate = DateTime.Now;
             Status = UserStatus.NotActivated;
@@ -17,8 +18,8 @@ namespace Core.Entities.Concrete
 
         public int UserId { get; set; }
         public long CitizenId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
         public string Account { get; set; }
         public string Email { get; set; }
         [JsonIgnore]
@@ -40,6 +41,7 @@ namespace Core.Entities.Concrete
 
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
+        public bool Verified { get; set; }
 
         public bool UpdateMobilePhone(string mobilePhone)
         {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Business.Adapters.SmsService;
+﻿using Business.Adapters.SmsService;
 using Business.Services.Authentication;
 using Business.Services.Authentication.Model;
 using Core.DataAccess;
@@ -12,6 +8,10 @@ using DataAccess.Abstract;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Tests.Helpers;
 
 namespace Tests.Business.Services.Authentication
@@ -46,7 +46,7 @@ namespace Tests.Business.Services.Authentication
                 .Returns(() => Task.FromResult(user));
 
             _userRepository.Setup(x => x.GetClaims(It.IsAny<int>()))
-                .Returns(new List<OperationClaim>() { new () { Id = 1, Name = "test" } });
+                .Returns(new List<OperationClaim>() { new() { Id = 1, Name = "test" } });
 
             _tokenHelper.Setup(x => x.CreateToken<DArchToken>(It.IsAny<User>())).Returns(() => new DArchToken()
             {
@@ -85,7 +85,7 @@ namespace Tests.Business.Services.Authentication
                 .Returns(() => Task.FromResult(user));
 
             _userRepository.Setup(x => x.GetClaims(It.IsAny<int>()))
-                .Returns(new List<OperationClaim>() { new () { Id = 1, Name = "test" } });
+                .Returns(new List<OperationClaim>() { new() { Id = 1, Name = "test" } });
 
             _tokenHelper.Setup(x => x.CreateToken<DArchToken>(It.IsAny<User>())).Returns(() => new DArchToken()
             {

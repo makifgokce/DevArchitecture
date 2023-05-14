@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using ServiceStack.Redis;
+﻿using ServiceStack.Redis;
 using ServiceStack.Text;
+using System;
+using System.Threading.Tasks;
 
 namespace Core.CrossCuttingConcerns.Caching.Redis
 {

@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
 using Core.Entities.Concrete;
 using Core.Extensions;
 using Core.Utilities.Security.Encyption;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
 
 
 namespace Core.Utilities.Security.Jwt
@@ -90,8 +90,8 @@ namespace Core.Utilities.Security.Jwt
             {
                 claims.AddName($"{user.Account}");
             }
-            claims.Add(new Claim("FirstName", user.FirstName));
-            claims.Add(new Claim("LastName", user.LastName));
+            claims.Add(new Claim("Name", user.Name));
+            claims.Add(new Claim("Surname", user.Surname));
 
             claims.Add(new Claim(ClaimTypes.Role, user.AuthenticationProviderType));
 

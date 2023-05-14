@@ -1,6 +1,6 @@
-﻿using System.Net;
-using Business.Adapters.PersonService;
+﻿using Business.Adapters.PersonService;
 using Entities.Dtos;
+using System.Net;
 
 namespace Tests.Helpers.Adapter
 {

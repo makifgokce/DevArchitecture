@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Business.Handlers.Users.Commands;
+﻿using Business.Handlers.Users.Commands;
 using Business.Handlers.Users.Queries;
 using Core.Entities.Dtos;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Entities.Dtos;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -56,7 +56,7 @@ namespace WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("{account}")]
-        public async Task<IActionResult> GetById([FromRoute]string account)
+        public async Task<IActionResult> GetByAccount([FromRoute] string account)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetUserQuery { Account = account }));
         }
@@ -88,9 +88,23 @@ namespace WebAPI.Controllers
         [HttpPut("{account}")]
         public async Task<IActionResult> Update([FromRoute] string account, [FromBody] UpdateUserDto updateUserDto)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateUserCommand{Account = account,Email = updateUserDto.Email, FirstName = updateUserDto.FirstName, LastName = updateUserDto.LastName, MobilePhones = updateUserDto.MobilePhones, Address = updateUserDto.Address,Notes = updateUserDto.Notes}));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateUserCommand { Account = account, Email = updateUserDto.Email, Name = updateUserDto.Name, Surname = updateUserDto.Surname, MobilePhones = updateUserDto.MobilePhones, Address = updateUserDto.Address, Notes = updateUserDto.Notes, BirtDate = updateUserDto.BirthDate }));
         }
 
+        /// <summary>
+        /// Update User.
+        /// </summary>
+        /// <param name="updateUserDto"></param>
+        /// <returns></returns>
+        [Consumes("application/json")]
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [HttpPut("cid")]
+        public async Task<IActionResult> UpdateCid([FromBody] UpdateCidDto updateUserDto)
+        {
+            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateUserCidCmd { CitizenId = updateUserDto.CitizenId, Name = updateUserDto.Name, Surname = updateUserDto.Surname, BirthDate = updateUserDto.BirthDate }));
+        }
         /// <summary>
         /// Delete User.
         /// </summary>
@@ -103,7 +117,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{account}")]
         public async Task<IActionResult> Delete([FromRoute] string account)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteUserCommand{ Account = account }));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteUserCommand { Account = account }));
         }
     }
 }

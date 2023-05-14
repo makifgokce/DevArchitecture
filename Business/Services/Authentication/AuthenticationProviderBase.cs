@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Business.Adapters.SmsService;
+﻿using Business.Adapters.SmsService;
 using Business.Constants;
 using Business.Services.Authentication.Model;
 using Core.Entities.Concrete;
@@ -9,6 +6,9 @@ using Core.Utilities.Results;
 using Core.Utilities.Toolkit;
 using DataAccess.Abstract;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Business.Services.Authentication
 {
@@ -85,7 +85,7 @@ namespace Business.Services.Authentication
                 catch
                 {
                     return new LoginUserResult
-                        { Message = Messages.SmsServiceNotFound, Status = LoginUserResult.LoginStatus.ServiceError };
+                    { Message = Messages.SmsServiceNotFound, Status = LoginUserResult.LoginStatus.ServiceError };
                 }
             }
             else
@@ -94,7 +94,7 @@ namespace Business.Services.Authentication
             }
 
             return new LoginUserResult
-                { Message = Messages.SendMobileCode + mobileCode, Status = LoginUserResult.LoginStatus.Ok };
+            { Message = Messages.SendMobileCode + mobileCode, Status = LoginUserResult.LoginStatus.Ok };
         }
     }
 }

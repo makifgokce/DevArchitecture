@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Core.Utilities.ElasticSearch.Models;
+﻿using Core.Utilities.ElasticSearch.Models;
 using Core.Utilities.Results;
 using Elasticsearch.Net;
 using Microsoft.Extensions.Configuration;
 using Nest;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Result = Core.Utilities.Results.Result;
 
 namespace Core.Utilities.ElasticSearch

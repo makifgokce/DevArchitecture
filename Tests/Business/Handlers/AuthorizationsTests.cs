@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Business.Constants;
+﻿using Business.Constants;
 using Business.Handlers.Authorizations.Commands;
 using Business.Handlers.Authorizations.Queries;
 using Business.Services.Authentication;
@@ -16,15 +11,20 @@ using FluentAssertions;
 using MediatR;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using Tests.Helpers;
 using static Business.Handlers.Authorizations.Commands.ForgotPasswordCommand;
+using static Business.Handlers.Authorizations.Commands.RegisterUserCommand;
 using static Business.Handlers.Authorizations.Queries.LoginUserQuery;
 using static Business.Handlers.Authorizations.Queries.LoginWithRefreshTokenQuery;
-using static Business.Handlers.Authorizations.Commands.RegisterUserCommand;
 
 namespace Tests.Business.Handlers
 {
-    
+
 
     [TestFixture]
     public class AuthorizationsTests
@@ -76,7 +76,7 @@ namespace Tests.Business.Handlers
                 .Returns(new List<OperationClaim>() { new OperationClaim() { Id = 1, Name = "test" } });
             _loginUserQuery = new LoginUserQuery
             {
-                Email = user.Email,
+                Account = user.Account,
                 Password = "123456"
             };
 
@@ -140,11 +140,13 @@ namespace Tests.Business.Handlers
         [Test]
         public async Task Handler_Register()
         {
-            var registerUser = new User { Email = "test@test.com", FullName = "test test" };
+            var registerUser = new User { Account = "testacc", Email = "test@test.com", Name = "test", Surname = "testt" };
             _command = new RegisterUserCommand
             {
+                Account = registerUser.Account,
                 Email = registerUser.Email,
-                FullName = registerUser.FullName,
+                Name = registerUser.Name,
+                Surname = registerUser.Name,
                 Password = "123456"
             };
             var result = await _registerUserCommandHandler.Handle(_command, CancellationToken.None);

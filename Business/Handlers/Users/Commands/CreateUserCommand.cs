@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Business.BusinessAspects;
+﻿using Business.BusinessAspects;
 using Business.Constants;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Logging;
@@ -10,15 +7,17 @@ using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Business.Handlers.Users.Commands
 {
     public class CreateUserCommand : IRequest<IResult>
     {
-        public int UserId { get; set; }
         public long CitizenId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
         public string Account { get; set; }
         public string Email { get; set; }
         public string MobilePhones { get; set; }
@@ -60,9 +59,10 @@ namespace Business.Handlers.Users.Commands
 
                 var user = new User
                 {
+                    Account = request.Account,
                     Email = request.Email,
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
+                    Name = request.Name,
+                    Surname = request.Surname,
                     Status = User.UserStatus.NotActivated,
                     Address = request.Address,
                     BirthDate = request.BirthDate,

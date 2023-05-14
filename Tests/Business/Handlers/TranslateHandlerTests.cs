@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Business.Constants;
+﻿using Business.Constants;
 using Business.Handlers.Translates.Commands;
 using Business.Handlers.Translates.Queries;
 using Core.Entities.Concrete;
@@ -13,15 +7,21 @@ using FluentAssertions;
 using MediatR;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using static Business.Handlers.Translates.Commands.CreateTranslateCommand;
 using static Business.Handlers.Translates.Commands.DeleteTranslateCommand;
+using static Business.Handlers.Translates.Commands.UpdateTranslateCommand;
 using static Business.Handlers.Translates.Queries.GetTranslateQuery;
 using static Business.Handlers.Translates.Queries.GetTranslatesQuery;
-using static Business.Handlers.Translates.Commands.UpdateTranslateCommand;
 
 namespace Tests.Business.Handlers
 {
-    
+
 
     [TestFixture]
     public class TranslateHandlerTests
@@ -44,11 +44,11 @@ namespace Tests.Business.Handlers
 
             _translateRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Translate, bool>>>()))
                 .ReturnsAsync(new Translate());
-// propertyler buraya yazılacak
-// {
-// TranslateId = 1,
-// TranslateName = "Test"
-// }
+            // propertyler buraya yazılacak
+            // {
+            // TranslateId = 1,
+            // TranslateName = "Test"
+            // }
 
 
             var handler = new GetTranslateQueryHandler(_translateRepository.Object, _mediator.Object);

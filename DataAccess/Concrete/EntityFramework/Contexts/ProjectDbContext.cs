@@ -1,8 +1,8 @@
-using System;
-using System.Reflection;
 using Core.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Reflection;
 
 namespace DataAccess.Concrete.EntityFramework.Contexts
 {
@@ -36,7 +36,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
             : base(options)
         {
             Configuration = configuration;
-           
+
         }
 
         public DbSet<OperationClaim> OperationClaims { get; set; }

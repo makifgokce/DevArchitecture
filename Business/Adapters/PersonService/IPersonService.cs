@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Entities.Dtos;
+﻿using Entities.Dtos;
+using System.Threading.Tasks;
 
 namespace Business.Adapters.PersonService
 {

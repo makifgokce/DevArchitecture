@@ -17,7 +17,7 @@ namespace Tests.Core.Extensions
             var cloneUser = user.Clone();
 
             cloneUser.Should().BeOfType<User>();
-            cloneUser.FullName.Should().Be(user.FullName);
+            cloneUser.Account.Should().Be(user.Account);
         }
     }
 }

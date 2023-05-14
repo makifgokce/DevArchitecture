@@ -10,10 +10,10 @@ namespace DataAccess.Concrete.Configurations
         {
             builder.HasKey(x => x.UserId);
             builder.Property(x => x.CitizenId).IsRequired();
-            builder.Property(x => x.FirstName).HasMaxLength(100).IsRequired();
-            builder.Property(x => x.LastName).HasMaxLength(100).IsRequired();
-            builder.Property(x => x.Email).HasMaxLength(50);
-            builder.Property(x => x.Account).HasMaxLength(50);
+            builder.Property(x => x.Name).HasMaxLength(100).IsRequired();
+            builder.Property(x => x.Surname).HasMaxLength(100).IsRequired();
+            builder.Property(x => x.Email).HasMaxLength(50).IsRequired();
+            builder.Property(x => x.Account).HasMaxLength(50).IsRequired();
             builder.Property(x => x.Status).IsRequired();
             builder.Property(x => x.BirthDate);
             builder.Property(x => x.Gender);
@@ -24,6 +24,7 @@ namespace DataAccess.Concrete.Configurations
 
             builder.HasIndex(x => x.CitizenId);
             builder.HasIndex(x => x.MobilePhones);
+            builder.HasIndex(x => x.Account);
         }
     }
 }

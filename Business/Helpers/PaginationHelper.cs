@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Core.Entities.Concrete;
+﻿using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.URI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Helpers
 {

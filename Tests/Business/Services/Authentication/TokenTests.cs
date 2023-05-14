@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Core.CrossCuttingConcerns.Caching;
+﻿using Core.CrossCuttingConcerns.Caching;
 using Core.CrossCuttingConcerns.Caching.Microsoft;
 using FluentAssertions;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Tests.Helpers;
 using Tests.Helpers.Token;
 

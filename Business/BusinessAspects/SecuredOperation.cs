@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using Business.Constants;
+﻿using Business.Constants;
 using Castle.DynamicProxy;
 using Core.CrossCuttingConcerns.Caching;
 using Core.Utilities.Interceptors;
 using Core.Utilities.IoC;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security;
 
 namespace Business.BusinessAspects
 {
@@ -41,6 +41,10 @@ namespace Business.BusinessAspects
             var oprClaims = _cacheManager.Get<IEnumerable<string>>($"{CacheKeys.UserIdForClaim}={userId}");
 
             var operationName = invocation.TargetType.ReflectedType.Name;
+            if (operationName.EndsWith("Cmd") || operationName.EndsWith("Qry"))
+            {
+                return;
+            }
             if (oprClaims.Contains(operationName))
             {
                 return;

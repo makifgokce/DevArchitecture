@@ -1,10 +1,10 @@
 ﻿#nullable enable
-using System.Net;
 using Business.Adapters.PersonService;
 using Entities.Dtos;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using System.Net;
 using Tests.Helpers.Adapter;
 
 namespace Tests.Business.Adapters
@@ -63,7 +63,7 @@ namespace Tests.Business.Adapters
             string name = _name,
             long citizenId = _citizenId)
         {
-            return new ()
+            return new()
             {
                 BirthYear = birthYear,
                 Surname = surname,

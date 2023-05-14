@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Business.Constants;
+﻿using Business.Constants;
 using Business.Handlers.Languages.Commands;
 using Business.Handlers.Languages.Queries;
 using Core.Entities.Concrete;
@@ -13,16 +7,22 @@ using FluentAssertions;
 using MediatR;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using static Business.Handlers.Languages.Commands.CreateLanguageCommand;
 using static Business.Handlers.Languages.Commands.DeleteLanguageCommand;
+using static Business.Handlers.Languages.Commands.UpdateLanguageCommand;
 using static Business.Handlers.Languages.Queries.GetLanguageQuery;
 using static Business.Handlers.Languages.Queries.GetLanguagesQuery;
-using static Business.Handlers.Languages.Commands.UpdateLanguageCommand;
 
 
 namespace Tests.Business.Handlers
 {
-   
+
 
     [TestFixture]
     public class LanguageHandlerTests
@@ -45,11 +45,11 @@ namespace Tests.Business.Handlers
 
             _languageRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Language, bool>>>()))
                 .ReturnsAsync(new Language());
-// propertyler buraya yazılacak
-// {
-// LanguageId = 1,
-// LanguageName = "Test"
-// }
+            // propertyler buraya yazılacak
+            // {
+            // LanguageId = 1,
+            // LanguageName = "Test"
+            // }
 
 
             var handler = new GetLanguageQueryHandler(_languageRepository.Object, _mediator.Object);

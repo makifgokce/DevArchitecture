@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Tests.Helpers.Token
 {
     public static class MockJwtTokens
     {
-        private static readonly JwtSecurityTokenHandler s_tokenHandler = new ();
+        private static readonly JwtSecurityTokenHandler s_tokenHandler = new();
         private static string s_keyString = "!z2x3C4v5B*_*!z2x3C4v5B*_*";
 
         static MockJwtTokens()

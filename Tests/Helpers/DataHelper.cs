@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Core.Entities.Concrete;
+﻿using Core.Entities.Concrete;
 using Core.Utilities.Security.Hashing;
+using System;
+using System.Collections.Generic;
+using static Core.Entities.Concrete.User;
 
 namespace Tests.Helpers
 {
@@ -17,17 +18,20 @@ namespace Tests.Helpers
                 Address = "test",
                 BirthDate = new DateTime(1988, 01, 01),
                 CitizenId = 12345678910,
+                Account = "testacc",
                 Email = "test@test.com",
-                FullName = string.Format("{0} {1} {2}", name, name, name),
+                Name = name,
+                Surname = name,
                 Gender = 1,
                 MobilePhones = "05339262726",
                 Notes = "test",
                 RecordDate = DateTime.Now,
                 PasswordHash = passwordSalt,
                 PasswordSalt = passwordHash,
-                Status = true,
+                Status = UserStatus.Activated,
                 AuthenticationProviderType = "Person",
-                UpdateContactDate = DateTime.Now
+                UpdateContactDate = DateTime.Now,
+                Verified = true
             };
         }
 
@@ -44,17 +48,20 @@ namespace Tests.Helpers
                     Address = "test" + i,
                     BirthDate = new DateTime(1988, 01, 01),
                     CitizenId = 123456789101,
+                    Account = "testacc" + i,
                     Email = "test@test.com",
-                    FullName = string.Format("name {0} name {1} name {2}", i, i, i),
+                    Name = "test" + i,
+                    Surname = "test" + i,
                     Gender = 1,
                     MobilePhones = "123456789",
                     Notes = "test",
                     RecordDate = DateTime.Now,
                     PasswordHash = passwordSalt,
                     PasswordSalt = passwordHash,
-                    Status = true,
+                    Status = UserStatus.Activated,
                     AuthenticationProviderType = "User",
-                    UpdateContactDate = DateTime.Now
+                    UpdateContactDate = DateTime.Now,
+                    Verified = true
                 };
                 list.Add(user);
             }

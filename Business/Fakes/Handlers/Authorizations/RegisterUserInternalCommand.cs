@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Business.Constants;
+﻿using Business.Constants;
 using Business.Handlers.Authorizations.ValidationRules;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
@@ -9,6 +7,8 @@ using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using DataAccess.Abstract;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 using static Core.Entities.Concrete.User;
 
 namespace Business.Fakes.Handlers.Authorizations
@@ -18,8 +18,8 @@ namespace Business.Fakes.Handlers.Authorizations
         public string Account { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
 
 
         public class RegisterUserInternalCommandHandler : IRequestHandler<RegisterUserInternalCommand, IResult>
@@ -54,8 +54,8 @@ namespace Business.Fakes.Handlers.Authorizations
                 {
                     Email = request.Email,
                     Account = request.Account,
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
+                    Name = request.Name,
+                    Surname = request.Surname,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     Status = UserStatus.Activated

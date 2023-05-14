@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Business.Handlers.UserClaims.Commands;
+﻿using Business.Handlers.UserClaims.Commands;
 using Business.Handlers.UserClaims.Queries;
 using Core.Entities.Concrete;
 using Core.Entities.Dtos;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Entities.Dtos;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserClaim>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetByUserId([FromRoute]int userid)
+        public async Task<IActionResult> GetByUserId([FromRoute] int userid)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetUserClaimLookupQuery { UserId = userid }));
         }
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<SelectionItem>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("users/{id}")]
-        public async Task<IActionResult> GetOperationClaimByUserId([FromRoute]int id)
+        public async Task<IActionResult> GetOperationClaimByUserId([FromRoute] int id)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetUserClaimLookupByUserIdQuery { Id = id }));
         }
@@ -90,7 +90,7 @@ namespace WebAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateUserClaimDto updateUserClaimDto)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new  UpdateUserClaimCommand{UserId = updateUserClaimDto.UserId, ClaimId = updateUserClaimDto.ClaimIds}));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateUserClaimCommand { UserId = updateUserClaimDto.UserId, ClaimId = updateUserClaimDto.ClaimIds }));
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteUserClaimCommand{Id = id}));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteUserClaimCommand { Id = id }));
         }
     }
 }

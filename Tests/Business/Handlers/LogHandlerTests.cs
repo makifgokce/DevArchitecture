@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using DataAccess.Abstract;
+﻿using DataAccess.Abstract;
 using MediatR;
 using Moq;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace Tests.Business.Handlers
 {

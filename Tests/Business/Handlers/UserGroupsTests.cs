@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Business.Handlers.UserGroups.Commands;
+﻿using Business.Handlers.UserGroups.Commands;
 using Business.Handlers.UserGroups.Queries;
 using Core.Aspects.Autofac.Transaction;
 using Core.Entities.Concrete;
@@ -10,10 +6,14 @@ using DataAccess.Abstract;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using static Business.Handlers.UserGroups.Commands.CreateUserGroupCommand;
 using static Business.Handlers.UserGroups.Commands.DeleteUserGroupCommand;
-using static Business.Handlers.UserGroups.Queries.GetUserGroupsQuery;
 using static Business.Handlers.UserGroups.Commands.UpdateUserGroupCommand;
+using static Business.Handlers.UserGroups.Queries.GetUserGroupsQuery;
 
 namespace Tests.Business.Handlers
 {

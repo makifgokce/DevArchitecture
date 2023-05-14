@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Core.Extensions;
+using FluentAssertions;
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using Core.Extensions;
-using FluentAssertions;
-using NUnit.Framework;
 
 namespace Tests.Core.Extensions
 {

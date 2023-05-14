@@ -1,9 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text.Json.Serialization;
-using Business;
+﻿using Business;
 using Business.Helpers;
 using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Core.Extensions;
@@ -21,6 +16,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System;
+using System.Globalization;
+using System.IO;
+using System.Text.Json.Serialization;
 using ConfigurationManager = Business.ConfigurationManager;
 
 namespace WebAPI
@@ -137,7 +136,7 @@ namespace WebAPI
             app.ConfigureCustomExceptionMiddleware();
 
             _ = app.UseDbOperationClaimCreator();
-            
+
             if (!env.IsProduction())
             {
                 app.UseSwagger();
