@@ -1,0 +1,97 @@
+<div class="container-fluid align-middle">
+  <div class="row">
+    <div class="col-md-3" ></div>
+    <div class="col-md-6 ">
+
+      <div class="card bg-dark text-light" *ngIf="loading">
+        <div class="card-header card-header-danger">
+          <ngx-skeleton-loader count="1" appearance="line" [theme]="{'width': '30%'}"></ngx-skeleton-loader>
+          <p class="card-category"><ngx-skeleton-loader count="1" appearance="line" [theme]="{'width': '50%'}"></ngx-skeleton-loader></p>
+        </div>
+        <div class="card-body">
+          <div class="row" *ngFor="let i of [].constructor(4)">
+            <ngx-skeleton-loader count="1" appearance="line" [theme]="{'height': '20px', 'border-radius': '3px'}"></ngx-skeleton-loader>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-dark text-light" *ngIf="!loading">
+        <div class="card-header card-header-danger">
+          <h4 class="card-title">{{'Register' | translate}}</h4>
+          <p class="card-category">{{ getTitle() }}</p>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="registerUser" (submit)="register()">
+            <div class="row">
+              <div class="col-md-12 py-2">
+                <div class="input-group has-validation">
+                  <input class="form-control" [class]="{'is-valid': name?.valid && (name?.touched || name?.dirty), 'is-invalid': !name?.valid && (name?.touched || name?.dirty)}" placeholder="{{'Name' | translate}}" type="text"  formControlName="name">
+                  <div class="invalid-feedback" *ngIf="!name?.errors?.['required'] || !name?.valid && (name?.touched || name?.dirty)">
+                    {{ 'Required' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 py-2">
+                <div class="input-group has-validation">
+                  <input class="form-control" [class]="{'is-valid': surname?.valid && (surname?.touched || surname?.dirty), 'is-invalid': !surname?.valid && (surname?.touched || surname?.dirty)}"  placeholder="{{'Surname' | translate}}" type="text"  formControlName="surname">
+                  <div class="invalid-feedback" *ngIf="!surname?.errors?.['required'] || !surname?.valid && (surname?.touched || surname?.dirty)">
+                    {{ 'Required' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 py-2">
+                <div class="input-group has-validation">
+                  <input class="form-control" [class]="{'is-valid': account?.valid && (account?.touched || account?.dirty), 'is-invalid': !account?.valid && (account?.touched || account?.dirty)}"  placeholder="{{'Account' | translate}}"  formControlName="account">
+                  <div class="invalid-feedback" *ngIf="!account?.errors?.['required'] || !account?.valid && (account?.touched || account?.dirty)">
+                    {{ 'AccountEmpty' | translate }}
+                  </div>
+                  <div class="invalid-feedback" *ngIf="!account?.errors?.['pattern'] || !account?.valid && (account?.touched || account?.dirty)">
+                    {{ 'AccountPattern' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 py-2">
+                <div class="input-group has-validation">
+                  <input class="form-control" [class]="{'is-valid': email?.valid && (email?.touched || email?.dirty), 'is-invalid': !email?.valid && (email?.touched || email?.dirty)}"  placeholder="{{'Email' | translate}}" type="email"  formControlName="email">
+                  <div class="invalid-feedback" *ngIf="!email?.errors?.['required'] || !email?.valid && (email?.touched || email?.dirty)">
+                    {{ 'Required' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 py-2">
+                <div class="input-group has-validation">
+                  <input class="form-control" [class]="{'is-valid': password?.valid && (password?.touched || password?.dirty), 'is-invalid': !password?.valid && (password?.touched || password?.dirty)}"  placeholder="{{'Password' | translate}}" type="password"  formControlName="password">
+                  <div class="invalid-feedback" *ngIf="!password?.errors?.['required'] || !password?.valid && (password?.touched || password?.dirty)">
+                    {{ 'Required' | translate }}
+                  </div>
+                  <div class="invalid-feedback" *ngIf="!password?.errors?.['pattern'] || !password?.valid && (password?.touched || password?.dirty)">
+                    {{ 'PasswordLength' | translate }} <br>
+                    {{ 'PasswordUppercaseLetter' | translate }} <br>
+                    {{ 'PasswordLowercaseLetter' | translate }} <br>
+                    {{ 'PasswordDigit' | translate }} <br>
+                    {{ 'PasswordSpecialCharacter' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 py-2 d-flex justify-content-evenly">
+                <button type="button" class="btn btn-dark" (click)="clear()">{{'Clear'| translate}}</button>
+                <button type="submit" class="btn btn-success" [disabled]="!registerUser.valid">{{'Save'| translate}}</button>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" ></div>
+  </div>
+</div>

@@ -1,74 +1,65 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { AppRoutingModule } from './app.routing';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { ComponentsModule } from './core/modules/components.module';
-import { AdminLayoutComponent } from './core/components/app/layouts/admin-layout/admin-layout.component';
-import { TranslationService } from './core/services/translation.service';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { LoginGuard } from './core/guards/login-guard';
-import { AuthInterceptorService } from './core/interceptors/auth-interceptor.service';
-import { HttpEntityRepositoryService } from './core/services/http-entity-repository.service';
-
-
-// i18 kullanıclak ise aşağıdaki metod aktif edilecek
-
-//  export function HttpLoaderFactory(http: HttpClient) {
-//    
-//    var asd=new TranslateHttpLoader(http, '../../../../assets/i18n/', '.json'); 
-//    return asd;
-//  }
-
-
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginGuard } from './guards/login.guard';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { HttpEntityRepositoryService } from './services/http-entity-repistory.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslationService } from './services/translation.service';
+import { AccountComponent } from './components/user/account/account.component';
+import { LoginComponent } from './components/user/login/login.component';
+import { RegisterComponent } from './components/user/register/register.component';
+import { RouterModule } from '@angular/router';
+import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
+export function layoutHttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http,'/assets/i18n/','.json');
+}
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
-
-
 @NgModule({
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    FooterComponent,
+    HomeComponent,
+    AccountComponent,
+    LoginComponent,
+    RegisterComponent
+  ],
   imports: [
-    BrowserAnimationsModule,
+    BrowserModule,
+    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ComponentsModule,
-    RouterModule,
-    AppRoutingModule,
-    NgMultiSelectDropDownModule.forRoot(),
-    SweetAlert2Module.forRoot(),
-    NgbModule,
     TranslateModule.forRoot({
-      loader: {
+      loader:{
         provide: TranslateLoader,
-        //useFactory:HttpLoaderFactory, //i18 kullanılacak ise useClass kapatılıp yukarıda bulunan HttpLoaderFactory ve bu satır aktif edilecek
+        useFactory: layoutHttpLoaderFactory,
         useClass: TranslationService,
         deps: [HttpClient]
       }
-
     })
-
   ],
-  declarations: [
-    AppComponent,
-    AdminLayoutComponent
-  ],
-
   providers: [
     LoginGuard,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
+      useClass: AuthInterceptor,
       multi: true,
-    },    
-    HttpEntityRepositoryService,
+    },
+    HttpEntityRepositoryService
   ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
