@@ -103,7 +103,7 @@ namespace WebAPI.Controllers
         [HttpPut("cid")]
         public async Task<IActionResult> UpdateCid([FromBody] UpdateCidDto updateUserDto)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateUserCidCmd { CitizenId = updateUserDto.CitizenId, Name = updateUserDto.Name, Surname = updateUserDto.Surname, BirthDate = updateUserDto.BirthDate }));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateUserCidCommand { CitizenId = updateUserDto.CitizenId, Name = updateUserDto.Name, Surname = updateUserDto.Surname, BirthDate = updateUserDto.BirthDate }));
         }
         /// <summary>
         /// Delete User.

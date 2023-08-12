@@ -9,6 +9,7 @@ namespace Business.Helpers
         public AutoMapperHelper()
         {
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<Post, PostDto>().ReverseMap();
         }
     }
 }

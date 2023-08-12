@@ -9,6 +9,7 @@ using Core.Utilities.ElasticSearch;
 using Core.Utilities.IoC;
 using Core.Utilities.MessageBrokers.RabbitMq;
 using Core.Utilities.Security.Jwt;
+using Core.Utilities.URI;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.EntityFramework.Contexts;
@@ -19,6 +20,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Slugify;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
@@ -73,6 +75,7 @@ namespace Business
             services.AddAutoMapper(typeof(ConfigurationManager));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(BusinessStartup).GetTypeInfo().Assembly);
+            services.AddTransient<ISlugHelper, SlugHelper>();
 
             ValidatorOptions.Global.DisplayNameResolver = (type, memberInfo, expression) =>
             {
@@ -99,6 +102,7 @@ namespace Business
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
 
             services.AddDbContext<ProjectDbContext, DArchInMemory>(ServiceLifetime.Transient);
             services.AddSingleton<MongoDbContextBase, MongoDbContext>();
@@ -121,6 +125,7 @@ namespace Business
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
             services.AddDbContext<ProjectDbContext, MsDbContext>();
 
             services.AddSingleton<MongoDbContextBase, MongoDbContext>();
@@ -142,6 +147,7 @@ namespace Business
             services.AddTransient<IOperationClaimRepository, OperationClaimRepository>();
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
 
 
             services.AddDbContext<ProjectDbContext, MsDbContext>();

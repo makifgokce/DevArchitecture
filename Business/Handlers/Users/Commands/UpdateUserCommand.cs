@@ -40,6 +40,11 @@ namespace Business.Handlers.Users.Commands
             {
                 var isThereAnyUser = await _userRepository.GetAsync(u => u.Account == request.Account);
 
+                if (isThereAnyUser == null)
+                {
+                    return new ErrorResult(Messages.UserNotFound);
+                }
+
                 if (!isThereAnyUser.Verified)
                 {
                     isThereAnyUser.Name = request.Name;

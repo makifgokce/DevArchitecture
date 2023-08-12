@@ -1,4 +1,5 @@
-﻿using Business.Constants;
+﻿using Business.Adapters.PersonService;
+using Business.Constants;
 using Business.Handlers.Authorizations.Commands;
 using Business.Handlers.Authorizations.Queries;
 using Business.Services.Authentication;
@@ -33,6 +34,7 @@ namespace Tests.Business.Handlers
         private Mock<ITokenHelper> _tokenHelper;
         private Mock<IMediator> _mediator;
         private Mock<ICacheManager> _cacheManager;
+        private Mock<IPersonService> personService;
 
         private LoginUserQueryHandler _loginUserQueryHandler;
         private LoginUserQuery _loginUserQuery;
@@ -48,9 +50,10 @@ namespace Tests.Business.Handlers
             _tokenHelper = new Mock<ITokenHelper>();
             _mediator = new Mock<IMediator>();
             _cacheManager = new Mock<ICacheManager>();
+            personService = new Mock<IPersonService>();
 
             _loginUserQueryHandler = new LoginUserQueryHandler(_userRepository.Object, _tokenHelper.Object, _mediator.Object, _cacheManager.Object);
-            _registerUserCommandHandler = new RegisterUserCommandHandler(_userRepository.Object);
+            _registerUserCommandHandler = new RegisterUserCommandHandler(_userRepository.Object, personService.Object);
             _forgotPasswordCommandHandler = new ForgotPasswordCommandHandler(_userRepository.Object);
         }
 
@@ -140,9 +143,10 @@ namespace Tests.Business.Handlers
         [Test]
         public async Task Handler_Register()
         {
-            var registerUser = new User { Account = "testacc", Email = "test@test.com", Name = "test", Surname = "testt" };
+            var registerUser = new User { CitizenId = 12345678901, Account = "testacc", Email = "test@test.com", Name = "test", Surname = "testt" };
             _command = new RegisterUserCommand
             {
+                CitizenId = registerUser.CitizenId,
                 Account = registerUser.Account,
                 Email = registerUser.Email,
                 Name = registerUser.Name,

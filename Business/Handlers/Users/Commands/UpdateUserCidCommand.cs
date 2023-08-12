@@ -17,13 +17,13 @@ using IResult = Core.Utilities.Results.IResult;
 
 namespace Business.Handlers.Users.Commands
 {
-    public class UpdateUserCidCmd : IRequest<IResult>
+    public class UpdateUserCidCommand : IRequest<IResult>
     {
         public long CitizenId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateTime BirthDate { get; set; }
-        public class UpdateUserCidCommandHandler : IRequestHandler<UpdateUserCidCmd, IResult>
+        public class UpdateUserCidCommandHandler : IRequestHandler<UpdateUserCidCommand, IResult>
         {
             private readonly IUserRepository _userRepository;
             private readonly IPersonService _personService;
@@ -40,7 +40,7 @@ namespace Business.Handlers.Users.Commands
             [SecuredOperation(Priority = 1)]
             [CacheRemoveAspect()]
             [LogAspect(typeof(FileLogger))]
-            public async Task<IResult> Handle(UpdateUserCidCmd request, CancellationToken cancellationToken)
+            public async Task<IResult> Handle(UpdateUserCidCommand request, CancellationToken cancellationToken)
             {
                 var uId = _httpContext.HttpContext?.User.Claims
                 .FirstOrDefault(x => x.Type.EndsWith("nameidentifier"))?.Value;
