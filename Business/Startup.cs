@@ -9,7 +9,6 @@ using Core.Utilities.ElasticSearch;
 using Core.Utilities.IoC;
 using Core.Utilities.MessageBrokers.RabbitMq;
 using Core.Utilities.Security.Jwt;
-using Core.Utilities.URI;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.EntityFramework.Contexts;
@@ -64,7 +63,6 @@ namespace Business
             services.AddTransient<IAuthenticationCoordinator, AuthenticationCoordinator>();
 
             services.AddSingleton<ConfigurationManager>();
-
 
             services.AddTransient<ITokenHelper, JwtHelper>();
             services.AddTransient<IElasticSearch, ElasticSearchManager>();

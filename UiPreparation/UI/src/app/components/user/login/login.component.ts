@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { LoginUser } from 'src/app/models/login-user';
 import { AuthService } from 'src/app/services/auth.service';
-import { LoadingService } from 'src/app/services/loading.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { environment } from 'src/environments/environment';
+import { SharedService } from 'src/app/services/shared.service';
+import { environment } from 'src/environment';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +20,10 @@ export class LoginComponent implements OnInit {
     private storageService:LocalStorageService,
     public translate: TranslateService,
     private fb: FormBuilder,
-    private _loading: LoadingService) { }
+    private shared: SharedService) { }
 
   ngOnInit(): void {
-    this._loading.isLoading.subscribe((l) => {
+    this.shared.isLoading.subscribe((l) => {
       this.loading = l;
     })
     this.loginUser = this.fb.group({

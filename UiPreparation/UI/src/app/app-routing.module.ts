@@ -5,11 +5,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { LocalizeParser, LocalizeRouterModule, LocalizeRouterSettings, ManualParserLoader } from '@gilsdav/ngx-translate-router';
 import { TranslateService } from '@ngx-translate/core';
 import { HomeComponent } from './components/home/home.component';
+import { LoginGuard } from './guards/login.guard';
+import { NotLoginGuard } from './guards/not-login.guard';
 import { AccountComponent } from './components/user/account/account.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegisterComponent } from './components/user/register/register.component';
-import { LoginGuard } from './guards/login.guard';
-import { NotLoginGuard } from './guards/not-login.guard';
+import { PostComponent } from './components/posts/post/post.component';
+import { PostListComponent } from './components/posts/post-list/post-list.component';
 
 const routes: Routes = [
   {
@@ -18,6 +20,20 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       title: 'home'
+    }
+  },
+  {
+    path: "post/:id/:slug",
+    component: PostComponent,
+    data: {
+      title: 'post'
+    }
+  },
+  {
+    path: "post",
+    component: PostListComponent,
+    data: {
+      title: 'post'
     }
   },
   {

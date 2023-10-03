@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs'
+import { BehaviorSubject, Observable, Subject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
   subject = new Subject<any>();
+  isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   constructor() { }
   sendChangeUserNameEvent(){
     this.subject.next(1);

@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import '/node_modules/bootstrap/scss/bootstrap.scss';
 @import '/node_modules/alertifyjs/build/css/alertify.min.css';
+body {
+  background: #1a1a1a;
+}
 .logo {
   box-shadow: 0 0 7px 1px;
   color: #fff;
@@ -37,7 +40,7 @@ $navbar-box-shadow-in: 0 0 1px 0;
   background: #8f39ce;
   color: #fff;
 }
-.dropdown.show {
+.dropdown-menu.show {
   background-color: $dark;
 }
 .dropdown.menu {
@@ -48,6 +51,9 @@ $navbar-box-shadow-in: 0 0 1px 0;
   box-shadow: $navbar-box-shadow-out $navbar-border-bottom-color,
     inset $navbar-box-shadow-in $navbar-border-bottom-color;
   background-color: $dark;
+  .nav-item:hover {
+    background-color: #1b1b1b;
+  }
   .dropdown-toggle {
     cursor: pointer;
   }
@@ -60,6 +66,14 @@ $navbar-box-shadow-in: 0 0 1px 0;
     border-right: 0;
     border-bottom: 0.3em solid transparent;
     border-left: 0.3em solid;
+  }
+  .dropdown-item {
+    margin: 0px;
+    color: $white;
+    cursor: pointer;
+    &:hover {
+      background-color: #8f39ce;
+    }
   }
 }
 .site-bg {

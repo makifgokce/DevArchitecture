@@ -1,16 +1,20 @@
 ﻿using Business;
 using Business.Helpers;
+using Business.Hubs;
 using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Core.Extensions;
 using Core.Utilities.IoC;
+using Core.Utilities.Results;
 using Core.Utilities.Security.Encyption;
 using Core.Utilities.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,6 +33,7 @@ namespace WebAPI
     /// </summary>
     public partial class Startup : BusinessStartup
     {
+        private readonly string PolicyName = "AllowOrigin";
         /// <summary>
         /// Constructor of <c>Startup</c>
         /// </summary>
@@ -69,8 +74,8 @@ namespace WebAPI
             services.AddCors(options =>
             {
                 options.AddPolicy(
-                    "AllowOrigin",
-                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                    PolicyName,
+                    builder => builder.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowCredentials().AllowAnyMethod().AllowAnyHeader());
             });
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -99,6 +104,12 @@ namespace WebAPI
             services.AddTransient<PostgreSqlLogger>();
             services.AddTransient<MsSqlLogger>();
             services.AddScoped<IpControlAttribute>();
+
+            services.AddSignalR(hubOptions =>
+            {
+                hubOptions.EnableDetailedErrors = true;
+                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(1);
+            });
 
             base.ConfigureServices(services);
         }
@@ -133,6 +144,8 @@ namespace WebAPI
 
             app.UseDeveloperExceptionPage();
 
+            app.UseWebSockets();
+
             app.ConfigureCustomExceptionMiddleware();
 
             _ = app.UseDbOperationClaimCreator();
@@ -147,7 +160,7 @@ namespace WebAPI
                     c.DocExpansion(DocExpansion.None);
                 });
             }
-            app.UseCors("AllowOrigin");
+            app.UseCors(PolicyName);
 
             app.UseHttpsRedirection();
 
@@ -171,7 +184,11 @@ namespace WebAPI
 
             app.UseStaticFiles();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chatHub");
+
+            });
         }
     }
 }

@@ -3,27 +3,24 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslationService } from './services/translation.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginGuard } from './guards/login.guard';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { HttpEntityRepositoryService } from './services/http-entity-repistory.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { TranslationService } from './services/translation.service';
-import { AccountComponent } from './components/user/account/account.component';
+import { HttpEntityRepositoryService } from './services/http-entity-repository.service';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegisterComponent } from './components/user/register/register.component';
-import { RouterModule } from '@angular/router';
-import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
+import { AccountComponent } from './components/user/account/account.component';
+import { PostComponent } from './components/posts/post/post.component';
+import { PostListComponent } from './components/posts/post-list/post-list.component';
 export function layoutHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http,'/assets/i18n/','.json');
-}
-export function tokenGetter() {
-  return localStorage.getItem("token");
 }
 @NgModule({
   declarations: [
@@ -31,13 +28,14 @@ export function tokenGetter() {
     NavbarComponent,
     FooterComponent,
     HomeComponent,
-    AccountComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AccountComponent,
+    PostComponent,
+    PostListComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -48,7 +46,8 @@ export function tokenGetter() {
         useClass: TranslationService,
         deps: [HttpClient]
       }
-    })
+    }),
+    AppRoutingModule
   ],
   providers: [
     LoginGuard,

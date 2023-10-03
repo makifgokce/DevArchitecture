@@ -36,8 +36,6 @@ namespace Business.Handlers.Posts.Queries
             [CacheAspect(10)]
             public async Task<IDataResult<PostDto>> Handle(GetPostQuery request, CancellationToken cancellationToken)
             {
-                //var post = await _postRepository.GetAsync(x => x.Id == request.Id && x.Slug == request.Slug);
-                //var postDto = _mapper.Map<PostDto>(post);
                 var postDto = await _postRepository.GetPost(request.Id, request.Slug);
                 return new SuccessDataResult<PostDto>(postDto);
             }

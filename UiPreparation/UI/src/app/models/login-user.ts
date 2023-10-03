@@ -1,6 +1,6 @@
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl } from "@angular/forms";
 
 export class LoginUser{
-  account = new FormControl('');
-  password = new FormControl('');
+    account!:FormControl;
+    password!:FormControl;
 }

@@ -15,6 +15,7 @@ import { SharedService } from 'src/app/services/shared.service';
 export class NavbarComponent implements OnInit {
   userName!: string;
   clickEventSubscription: Subscription;
+
   constructor(private authService: AuthService, private router: Router,
     private sharedService:SharedService,
 		private translateService: TranslateService, public localizeService: LocalizeRouterService, private local: LocalStorageService) {
@@ -33,7 +34,7 @@ export class NavbarComponent implements OnInit {
 
 	logOut() {
 		this.authService.logOut();
-		this.router.navigateByUrl("/login");
+		this.router.navigate(["login"]);
 	}
 
 	setUserName(){
@@ -44,7 +45,4 @@ export class NavbarComponent implements OnInit {
     this.localizeService.changeLanguage(lang)
     this.local.setItem("lang", lang)
 	}
-  navigate(str:string){
-    this.router.navigateByUrl(this.localizeService.translateRoute(str).toString())
-  }
 }

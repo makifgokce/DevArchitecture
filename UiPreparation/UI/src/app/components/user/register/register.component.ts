@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { RegisterUser } from 'src/app/models/register-user';
 import { AuthService } from 'src/app/services/auth.service';
-import { LoadingService } from 'src/app/services/loading.service';
-import { environment } from 'src/environments/environment';
+import { SharedService } from 'src/app/services/shared.service';
+import { environment } from 'src/environment';
 
 @Component({
   selector: 'app-register',
@@ -17,10 +17,10 @@ export class RegisterComponent implements OnInit {
   constructor(private auth:AuthService,
     public translate: TranslateService,
     private fb: FormBuilder,
-    private _loading: LoadingService) { }
+    private shared: SharedService) { }
 
   ngOnInit(): void {
-    this._loading.isLoading.subscribe((l)=>{
+    this.shared.isLoading.subscribe((l)=>{
       this.loading = l;
     })
     this.registerUser = this.fb.group({

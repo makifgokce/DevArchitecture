@@ -1,65 +1,54 @@
 <div class="container-fluid align-middle">
-  <div class="row">
-    <div class="col-md-3" ></div>
-    <div class="col-md-6">
-      <div class="card bg-dark text-light" *ngIf="loading">
-        <div class="card-header card-header-danger">
-          <ngx-skeleton-loader count="1" appearance="line" [theme]="{'width': '30%'}"></ngx-skeleton-loader>
-          <p class="card-category"><ngx-skeleton-loader count="1" appearance="line" [theme]="{'width': '50%'}"></ngx-skeleton-loader></p>
-        </div>
-        <div class="card-body">
-          <div class="row" *ngFor="let i of [].constructor(4)">
-            <ngx-skeleton-loader count="1" appearance="line" [theme]="{'height': '20px', 'border-radius': '3px'}"></ngx-skeleton-loader>
+    <div class="row">
+      <div class="col-md-3" ></div>
+      <div class="col-md-6">
+        <div class="card bg-dark text-light">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">{{'Login' | translate}}</h4>
+            <p class="card-category">{{ getTitle() }}</p>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="loginUser" (submit)="login()">
+              <div class="row">
+                <div class="col-md-12 py-2">
+                  <div class="inpu-group has-validation">
+                    <input class="form-control" [class]="{'is-valid': account?.valid && (account?.touched || account?.dirty), 'is-invalid': !account?.valid && (account?.touched || account?.dirty)}" placeholder="{{'Account' | translate}}" type="text" formControlName="account">
+                    <div class="invalid-feedback" *ngIf="!password?.errors?.['pattern'] || !password?.valid && (password?.touched || password?.dirty)">
+                      {{ 'AccountEmpty' | translate }}
+                    </div>
+                    <div class="invalid-feedback" *ngIf="!password?.errors?.['pattern'] || !password?.valid && (password?.touched || password?.dirty)">
+                      {{ 'AccountPattern' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 py-2">
+                  <div class="inpu-group has-validation">
+                    <input class="form-control" [class]="{'is-valid': password?.valid && (password?.touched || password?.dirty), 'is-invalid': !password?.valid && (password?.touched || password?.dirty)}" placeholder="{{'Password' | translate}}" type="password"  formControlName="password">
+                    <div class="invalid-feedback" *ngIf="!password?.errors?.['pattern'] || !password?.valid && (password?.touched || password?.dirty)">
+                      {{ 'Required' | translate }}
+                    </div>
+                    <div class="invalid-feedback" *ngIf="!password?.errors?.['pattern'] || !password?.valid && (password?.touched || password?.dirty)">
+                      {{ 'PasswordLength' | translate }} <br>
+                      {{ 'PasswordUppercaseLetter' | translate }} <br>
+                      {{ 'PasswordLowercaseLetter' | translate }} <br>
+                      {{ 'PasswordDigit' | translate }} <br>
+                      {{ 'PasswordSpecialCharacter' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 py-2 d-flex justify-content-evenly">
+                  <button type="submit" class="btn btn-success" [disabled]="!loginUser.valid">{{'Login'| translate}}</button>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </form>
           </div>
         </div>
       </div>
-      <div class="card bg-dark text-light" *ngIf="!loading">
-        <div class="card-header card-header-danger">
-          <h4 class="card-title">{{'Login' | translate}}</h4>
-          <p class="card-category">{{ getTitle() }}</p>
-        </div>
-        <div class="card-body">
-          <form [formGroup]="loginUser" (submit)="login()">
-            <div class="row">
-              <div class="col-md-12 py-2">
-                <div class="inpu-group has-validation">
-                  <input class="form-control" [class]="{'is-valid': account?.valid && (account?.touched || account?.dirty), 'is-invalid': !account?.valid && (account?.touched || account?.dirty)}" placeholder="{{'Account' | translate}}" type="text" formControlName="account">
-                  <div class="invalid-feedback" *ngIf="!password?.errors?.['pattern'] || !password?.valid && (password?.touched || password?.dirty)">
-                    {{ 'AccountEmpty' | translate }}
-                  </div>
-                  <div class="invalid-feedback" *ngIf="!password?.errors?.['pattern'] || !password?.valid && (password?.touched || password?.dirty)">
-                    {{ 'AccountPattern' | translate }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12 py-2">
-                <div class="inpu-group has-validation">
-                  <input class="form-control" [class]="{'is-valid': password?.valid && (password?.touched || password?.dirty), 'is-invalid': !password?.valid && (password?.touched || password?.dirty)}" placeholder="{{'Password' | translate}}" type="password"  formControlName="password">
-                  <div class="invalid-feedback" *ngIf="!password?.errors?.['pattern'] || !password?.valid && (password?.touched || password?.dirty)">
-                    {{ 'Required' | translate }}
-                  </div>
-                  <div class="invalid-feedback" *ngIf="!password?.errors?.['pattern'] || !password?.valid && (password?.touched || password?.dirty)">
-                    {{ 'PasswordLength' | translate }} <br>
-                    {{ 'PasswordUppercaseLetter' | translate }} <br>
-                    {{ 'PasswordLowercaseLetter' | translate }} <br>
-                    {{ 'PasswordDigit' | translate }} <br>
-                    {{ 'PasswordSpecialCharacter' | translate }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12 py-2 d-flex justify-content-evenly">
-                <button type="submit" class="btn btn-success" [disabled]="!loginUser.valid">{{'Login'| translate}}</button>
-              </div>
-            </div>
-            <div class="clearfix"></div>
-          </form>
-        </div>
-      </div>
+      <div class="col-md-3" ></div>
     </div>
-    <div class="col-md-3" ></div>
   </div>
-</div>

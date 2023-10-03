@@ -4,6 +4,7 @@ using Core.Entities.Dtos;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
+using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,19 +22,19 @@ namespace DataAccess.Concrete.EntityFramework
 
         public async Task<PostDto> GetPost(int id, string slug)
         {
-            var post = await Context.Posts.Where(q => q.Id == id && q.Slug == slug).Select(x => new PostDto
+            var post = await (from p in Context.Posts join u in Context.Users on p.AuthorId equals u.UserId where p.Id == id && p.Slug == slug select new PostDto
             {
-                Id = x.Id,
-                Title = x.Title,
-                Body = x.Body,
-                Description = x.Description,
-                Slug = x.Slug,
-                AuthorId = x.AuthorId,
-                Keywords = x.Keywords,
-                CreatedDate = x.CreatedDate,
-                UpdatedDate = x.UpdatedDate,
-                DeletedDate = (DateTime)x.DeletedDate,
-                AuthorName = Context.Users.Where(z => z.UserId == x.AuthorId).FirstOrDefault().Account,
+                Id = p.Id,
+                Title = p.Title,
+                Body = p.Body,
+                Description = p.Description,
+                Slug = p.Slug,
+                AuthorId = p.AuthorId,
+                Keywords = p.Keywords,
+                CreatedDate = p.CreatedDate,
+                UpdatedDate = p.UpdatedDate,
+                DeletedDate = (DateTime)p.DeletedDate,
+                AuthorName = u.Account
             }).FirstOrDefaultAsync();
             return post;
         }

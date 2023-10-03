@@ -10,7 +10,7 @@ import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, t
 import { TokenService } from '../services/token.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../services/alertify.service';
-import { LoadingService } from '../services/loading.service';
+import { SharedService } from '../services/shared.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -18,16 +18,15 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private tokenService:TokenService,
     private translate: TranslateService,
     private alertify: AlertifyService,
-    private loading: LoadingService) {}
+    private shared: SharedService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.loading.isLoading.next(true);
+    this.shared.isLoading.next(true);
     request = this.addToken(request);
 
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(request.url)
-        if (error && error.status === 401 && !request.url.endsWith('/Auth/Login')) {
+        if (error && error.status === 401 && !request.url.includes('/api/Auth/Login')) {
           return this.handle401Error(request,next);
         }
         else {
@@ -41,7 +40,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       }),
       finalize(() => {
-        this.loading.isLoading.next(false);
+        this.shared.isLoading.next(false);
       })
     )
   }

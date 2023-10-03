@@ -1,16 +1,16 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
-import { environment } from 'src/environments/environment';
-import { LoginUser } from '../models/login-user';
-import { RegisterUser } from '../models/register-user';
-import { Token } from '../models/token';
 import { User } from '../models/user';
-import { AlertifyService } from './alertify.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from './local-storage.service';
+import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
+import { Router } from '@angular/router';
+import { LoginUser } from '../models/login-user';
+import { Token } from '../models/token';
+import { RegisterUser } from '../models/register-user';
+import { AlertifyService } from './alertify.service';
 import { SharedService } from './shared.service';
+import { environment } from 'src/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +24,8 @@ export class AuthService {
   claims!: string[];
   constructor(private httpClient: HttpClient, private storageService: LocalStorageService,
     private router: Router, private localize: LocalizeRouterService, private alertifyService: AlertifyService, private sharedService: SharedService) {
-    this.setClaims();
+      this.setClaims();
   }
-
   login(loginUser: LoginUser) {
     let headers = new HttpHeaders();
     headers = headers.append("Content-Type", "application/json")
@@ -85,8 +84,7 @@ export class AuthService {
   getSurname() {
     return this.user.surname;
   }
-  setClaims() {
-
+  setClaims(){
     if ((this.claims == undefined || this.claims.length == 0) && this.storageService.getToken() != null && this.loggedIn()) {
 
       this.httpClient.get<string[]>(environment.getApiUrl + "/OperationClaims/getuserclaimsfromcache").subscribe(data => {
@@ -105,7 +103,6 @@ export class AuthService {
       this.user.surname = decode[propLastName];
     }
   }
-
   logOut() {
     this.storageService.removeToken();
     this.storageService.removeItem("lang")

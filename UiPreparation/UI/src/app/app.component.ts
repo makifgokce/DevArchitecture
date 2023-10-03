@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { AuthService } from './services/auth.service';
-import { LoadingService } from './services/loading.service';
 import { LocalStorageService } from './services/local-storage.service';
-
+import { environment } from 'src/environment';
+import { Subscription } from 'rxjs';
+import { SharedService } from './services/shared.service';
 export let browserRefresh = false;
 @Component({
   selector: 'app-root',
@@ -23,30 +22,29 @@ export class AppComponent {
     private activatedRoute: ActivatedRoute,
     private title: Title,
     private local: LocalStorageService,
-    public _loading: LoadingService)
-  {
-    const lang = translate.currentLang || translate.defaultLang || local.getItem("lang") || "tr-TR";
-    translate.addLangs(["tr-TR", "en-US"]);
-    translate.setDefaultLang("tr-TR");
-    if (local.getItem("lang") == null){
-      local.setItem("lang", lang)
-    }
-    if (!this.authService.loggedIn()) {
-      this.authService.logOut();
-      // this.router.navigateByUrl("/login");
-    }
-    this.setTitle();
-    this.subscription = router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        browserRefresh = !router.navigate;
+    public shared: SharedService) {
+      const lang = translate.currentLang || translate.defaultLang || local.getItem("lang") || "tr-TR";
+      translate.addLangs(["tr-TR", "en-US"]);
+      translate.setDefaultLang("tr-TR");
+      if (local.getItem("lang") == null){
+        local.setItem("lang", lang)
       }
-      if (event instanceof NavigationEnd){
-        this.setTitle()
+      if (!this.authService.loggedIn()) {
+        this.authService.logOut();
+        // this.router.navigateByUrl("/login");
       }
-    });
-    this._loading.isLoading.subscribe((l) => {
-      this.loading = l;
-    });
+      this.setTitle();
+      this.subscription = router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          browserRefresh = !router.navigate;
+        }
+        if (event instanceof NavigationEnd){
+          this.setTitle()
+        }
+      });
+      this.shared.isLoading.subscribe((l) => {
+        this.loading = l;
+      });
   }
   setTitle(): void{
     const rt = this.getChild(this.activatedRoute);

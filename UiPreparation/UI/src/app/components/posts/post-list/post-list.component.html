@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="card bg-dark text-white my-3" *ngFor="let p of posts">
+        <div class="card-header">
+            <router-link [routerLink]="['post', p.id, p.slug]">{{p.title}}</router-link>
+        </div>
+        <div class="card-body">
+        <h5 class="card-title">{{p.title}}</h5>
+        <p class="card-text">{{p.body}}</p>
+        <a href="#" class="btn btn-primary">Edit</a>
+        </div>
+    </div>
+</div>
