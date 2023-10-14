@@ -7,6 +7,7 @@ import { LocalStorageService } from './services/local-storage.service';
 import { environment } from 'src/environment';
 import { Subscription } from 'rxjs';
 import { SharedService } from './services/shared.service';
+import { SignalRService } from './services/signal-r.service';
 export let browserRefresh = false;
 @Component({
   selector: 'app-root',
@@ -22,7 +23,8 @@ export class AppComponent {
     private activatedRoute: ActivatedRoute,
     private title: Title,
     private local: LocalStorageService,
-    public shared: SharedService) {
+    public shared: SharedService,
+    private signalR: SignalRService) {
       const lang = translate.currentLang || translate.defaultLang || local.getItem("lang") || "tr-TR";
       translate.addLangs(["tr-TR", "en-US"]);
       translate.setDefaultLang("tr-TR");

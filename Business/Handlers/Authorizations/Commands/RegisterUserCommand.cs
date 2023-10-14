@@ -21,13 +21,17 @@ namespace Business.Handlers.Authorizations.Commands
 {
     public class RegisterUserCommand : IRequest<IResult>
     {
-        public long CitizenId { get; set; } 
-        public string Account { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+
+        public long CitizenId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public string BirthDate { get; set; }
+        public string Account { get; set; }
+        public string Email { get; set; }
+        public DateTime BirthDate { get; set; }
+        public int Gender { get; set; }
+        public string Address { get; set; }
+        public string Notes { get; set; }
+        public string Password { get; set; }
 
 
         public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, IResult>
@@ -76,7 +80,10 @@ namespace Business.Handlers.Authorizations.Commands
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     Verified = true,
-                    Status = User.UserStatus.NotActivated
+                    Status = User.UserStatus.NotActivated,
+                    Gender = request.Gender,
+                    Address = request.Address,
+                    Notes = request.Notes,
                 };
                 var res = await _personService.VerifyCid(new Citizen()
                 {

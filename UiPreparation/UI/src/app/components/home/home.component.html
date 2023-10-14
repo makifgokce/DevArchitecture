@@ -3,7 +3,7 @@
         <div class="card-header">Connections</div>
         <div class="card-body">
             <ul>
-            <li *ngFor="let m of messages">{{m.account}}</li>
+            <li *ngFor="let m of messages">{{m.account + '  |   ' + m.userAgent + ' |   ' + m.ip}}</li>
             </ul>
         </div>
     </div>
@@ -14,7 +14,7 @@
         <div class="card-body">
         <h5 class="card-title">{{p.title}}</h5>
         <p class="card-text">{{p.body}}</p>
-        <a href="#" class="btn btn-primary">Edit</a>
+        <router-link class="btn btn-primary" [routerLink]="['post', 'edit', p.id, p.slug]" *ngIf="checkClaim('UpdatePostCommand')">{{ "Edit" | localize }}</router-link>
         </div>
     </div>
 </div>

@@ -11,7 +11,7 @@
             <form [formGroup]="loginUser" (submit)="login()">
               <div class="row">
                 <div class="col-md-12 py-2">
-                  <div class="inpu-group has-validation">
+                  <div class="input-group has-validation">
                     <input class="form-control" [class]="{'is-valid': account?.valid && (account?.touched || account?.dirty), 'is-invalid': !account?.valid && (account?.touched || account?.dirty)}" placeholder="{{'Account' | translate}}" type="text" formControlName="account">
                     <div class="invalid-feedback" *ngIf="!password?.errors?.['pattern'] || !password?.valid && (password?.touched || password?.dirty)">
                       {{ 'AccountEmpty' | translate }}
@@ -24,7 +24,7 @@
               </div>
               <div class="row">
                 <div class="col-md-12 py-2">
-                  <div class="inpu-group has-validation">
+                  <div class="input-group has-validation">
                     <input class="form-control" [class]="{'is-valid': password?.valid && (password?.touched || password?.dirty), 'is-invalid': !password?.valid && (password?.touched || password?.dirty)}" placeholder="{{'Password' | translate}}" type="password"  formControlName="password">
                     <div class="invalid-feedback" *ngIf="!password?.errors?.['pattern'] || !password?.valid && (password?.touched || password?.dirty)">
                       {{ 'Required' | translate }}

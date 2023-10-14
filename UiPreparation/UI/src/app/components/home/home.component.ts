@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import * as signalR from '@microsoft/signalr';
-import { HttpTransportType, HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { Post } from 'src/app/models/post';
+import { AuthService } from 'src/app/services/auth.service';
+import { SignalRService } from 'src/app/services/signal-r.service';
 import { environment } from 'src/environment';
 
 @Component({
@@ -12,22 +12,16 @@ import { environment } from 'src/environment';
 })
 export class HomeComponent implements OnInit {
   public posts!: Post[];
-  private signalR!: HubConnection;
-  public messages!: any[];
-  constructor(private httpClient: HttpClient) {
-    
-    this.signalR = new HubConnectionBuilder()
-    .withUrl(`https://localhost:5001/chatHub`)
-    .withAutomaticReconnect()
-    .configureLogging(signalR.LogLevel.Debug)
-    .build();
+  public messages!: any;
+  constructor(private httpClient: HttpClient, private signalR: SignalRService, private authService: AuthService) {
+
   }
   ngOnInit(): void{
-    this.GetPosts()
-    this.ConnectSignalR()
-    this.signalR.on("Clients", message => {
-      this.messages = message
+    this.signalR.clients.subscribe((cl) => {
+      this.messages = cl
+      console.log(cl)
     })
+    this.GetPosts()
   }
 
   GetPosts():void{
@@ -39,18 +33,10 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-
-  async ConnectSignalR() : Promise<void>{
-    try {
-      await this.signalR.start().then(() => {
-        this.signalR.invoke("SayHello", "Merhaba")
-      })
-      console.log("Connection success.")
-    } catch (error) {
-      console.log(error)
-      setTimeout(this.ConnectSignalR, 5000)
-    }
-    
-    
+  
+  checkClaim(claim:string):boolean{
+    return this.authService.claimGuard(claim)
   }
+
+  
 }

@@ -12,6 +12,16 @@
               <div class="row">
                 <div class="col-md-12 py-2">
                   <div class="input-group has-validation">
+                    <input class="form-control" [class]="{'is-valid': citizenId?.valid && (citizenId?.touched || citizenId?.dirty), 'is-invalid': !citizenId?.valid && (citizenId?.touched || citizenId?.dirty)}" placeholder="{{'Citizen' | translate}}" type="number"  formControlName="citizenId">
+                    <div class="invalid-feedback" *ngIf="!citizenId?.errors?.['required'] || !citizenId?.valid && (citizenId?.touched || citizenId?.dirty)">
+                      {{ 'Required' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 py-2">
+                  <div class="input-group has-validation">
                     <input class="form-control" [class]="{'is-valid': name?.valid && (name?.touched || name?.dirty), 'is-invalid': !name?.valid && (name?.touched || name?.dirty)}" placeholder="{{'Name' | translate}}" type="text"  formControlName="name">
                     <div class="invalid-feedback" *ngIf="!name?.errors?.['required'] || !name?.valid && (name?.touched || name?.dirty)">
                       {{ 'Required' | translate }}
@@ -65,6 +75,16 @@
                       {{ 'PasswordLowercaseLetter' | translate }} <br>
                       {{ 'PasswordDigit' | translate }} <br>
                       {{ 'PasswordSpecialCharacter' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 py-2">
+                  <div class="input-group has-validation">
+                    <input class="form-control" [class]="{'is-valid': birthDate?.valid && (birthDate?.touched || birthDate?.dirty), 'is-invalid': !birthDate?.valid && (birthDate?.touched || birthDate?.dirty)}"  placeholder="{{'BirthDate' | translate}}" type="date"  formControlName="birthDate">
+                    <div class="invalid-feedback" *ngIf="!birthDate?.errors?.['required'] || !birthDate?.valid && (birthDate?.touched || birthDate?.dirty)">
+                      {{ 'Required' | translate }}
                     </div>
                   </div>
                 </div>

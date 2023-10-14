@@ -19,6 +19,7 @@ import { RegisterComponent } from './components/user/register/register.component
 import { AccountComponent } from './components/user/account/account.component';
 import { PostComponent } from './components/posts/post/post.component';
 import { PostListComponent } from './components/posts/post-list/post-list.component';
+import { UpdatePostComponent } from './components/posts/update-post/update-post.component';
 export function layoutHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http,'/assets/i18n/','.json');
 }
@@ -32,7 +33,8 @@ export function layoutHttpLoaderFactory(http: HttpClient) {
     RegisterComponent,
     AccountComponent,
     PostComponent,
-    PostListComponent
+    PostListComponent,
+    UpdatePostComponent
   ],
   imports: [
     BrowserModule,

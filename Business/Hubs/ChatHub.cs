@@ -31,15 +31,19 @@ namespace Business.Hubs
         {
             Console.WriteLine(Clients.All.ToString());
             var item = chatUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-            var uId = Convert.ToInt32(_contextAccessor.HttpContext?.User.Claims.FirstOrDefault(x => x.Type.EndsWith("nameidentifier"))?.Value);
-            var uAcc = _contextAccessor.HttpContext?.User.Claims.FirstOrDefault(x => x.Type.EndsWith("Name"))?.Value;
+            var uId = Convert.ToInt32(Context.GetHttpContext().User.Claims.FirstOrDefault(x => x.Type.EndsWith("nameidentifier"))?.Value);
+            var uAcc = Context.GetHttpContext().User.Claims.FirstOrDefault(x => x.Type.EndsWith("/name"))?.Value;
+            var userAgent = Context.GetHttpContext().Request.Headers["User-Agent"].ToString();
+            var ip = Context.GetHttpContext().Connection.RemoteIpAddress;
             if (item == null)
             {
                 chatUsers.TryAdd(new ChatUser
                 {
                     ConnectionId = Context.ConnectionId,
                     UId = uId,
-                    Account = uAcc != null ? uAcc : "Guest",
+                    Account = uAcc != null ? uAcc : String.Format("Guest {0}", Context.ConnectionId),
+                    UserAgent = userAgent,
+                    Ip = ip.ToString(),
                     LastOnline = DateTime.Now
                 });
                 Clients.All.Clients(chatUsers);

@@ -12,6 +12,7 @@ import { LoginComponent } from './components/user/login/login.component';
 import { RegisterComponent } from './components/user/register/register.component';
 import { PostComponent } from './components/posts/post/post.component';
 import { PostListComponent } from './components/posts/post-list/post-list.component';
+import { UpdatePostComponent } from './components/posts/update-post/update-post.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,15 @@ const routes: Routes = [
       title: 'post'
     }
   },
+  {
+    path: "post/edit/:id/:slug",
+    component: UpdatePostComponent,
+    canActivate: [LoginGuard],
+    data: {
+      title: 'post'
+    }
+  }
+  ,
   {
     path: "post",
     component: PostListComponent,

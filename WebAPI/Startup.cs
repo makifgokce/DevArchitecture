@@ -24,6 +24,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using ConfigurationManager = Business.ConfigurationManager;
 
 namespace WebAPI
@@ -93,6 +94,24 @@ namespace WebAPI
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey),
                         ClockSkew = TimeSpan.Zero
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+
+                            // If the request is for our hub...
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                (path.StartsWithSegments("/hubs")))
+                            {
+                                // Read the token out of the query string
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
             services.AddSwaggerGen(c =>
@@ -186,7 +205,7 @@ namespace WebAPI
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
-                endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<ChatHub>("/hubs/chatHub");
 
             });
         }

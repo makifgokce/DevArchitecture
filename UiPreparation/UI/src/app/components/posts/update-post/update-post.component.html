@@ -1,1 +1,17 @@
-<p>update-post works!</p>
+<div class="container">
+    <form [formGroup]="updatePost" (submit)="update()">
+        <div class="card bg-dark text-white my-3">
+            <div class="card-header">
+                <input type="text" class="form-control" name="title" [value]="post.title"/>
+            </div>
+            <div class="card-body">
+            <p class="card-text">
+                <textarea class="form-control" name="body">{{post.body}}</textarea>
+            </p>
+            <div class="clearfix">
+                <button class="btn btn-success" type="submit">{{ "Save" | localize }}</button>
+            </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -24,11 +24,14 @@ export class RegisterComponent implements OnInit {
       this.loading = l;
     })
     this.registerUser = this.fb.group({
+      citizenId: ['', Validators.pattern(new RegExp("^[1-9]{1}[0-9]{9}[02468]{1}$"))],
       name: ['', [Validators.required, Validators.pattern(new RegExp("^(?=.{2,50}$)[A-Za-zÇçÖöÜüİıŞş]+(?:\\s[A-Za-zÇçÖöÜüİıŞşĞğ]+)*$"))]],
       surname: ['', [Validators.required, Validators.pattern(new RegExp("^(?=.{2,50}$)[A-Za-zÇçÖöÜüİıŞş]+(?:\\s[A-Za-zÇçÖöÜüİıŞşĞğ]+)*$"))]],
       account: ['', [Validators.required, Validators.pattern(new RegExp("^[\\w](?!.*?\\.{2})[\\w.]{1,18}[\\w]$"))]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(new RegExp("[A-Z]")), Validators.pattern(new RegExp("[a-z]")), Validators.pattern(new RegExp("[0-9]")), Validators.pattern(new RegExp("[^a-zA-Z0-9]"))]]
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(new RegExp("[A-Z]")), Validators.pattern(new RegExp("[a-z]")), Validators.pattern(new RegExp("[0-9]")), Validators.pattern(new RegExp("[^a-zA-Z0-9]"))]],
+      birthDate: ['', Validators.required],
+      gender: ['', Validators.required, Validators.pattern(new RegExp("[0-2]{1}"))]
     })
   }
   get name(){
@@ -46,6 +49,21 @@ export class RegisterComponent implements OnInit {
   get password(){
     return this.registerUser.get('password')
   }
+  get citizenId(){
+    return this.registerUser.get('citizenId')
+  }
+  get birthDate(){
+    return this.registerUser.get('birthDate')
+  }
+  get gender(){
+    return this.registerUser.get('gender')
+  }
+  get address(){
+    return this.registerUser.get('address')
+  }
+  get notes(){
+    return this.registerUser.get('notes')
+  }
   getTitle(){
     return environment.getPageTitle
   }
@@ -55,6 +73,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
     const user = new RegisterUser();
+    user.citizenId = this.citizenId?.value
     user.name = this.name?.value
     user.surname = this.surname?.value
     user.account = this.account?.value
