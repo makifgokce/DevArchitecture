@@ -5,6 +5,7 @@ namespace Entities.Dtos
 {
     public class UpdateUserDto : IDto
     {
+        public int UserId { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
