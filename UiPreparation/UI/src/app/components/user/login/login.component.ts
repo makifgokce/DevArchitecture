@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       account: ['', [Validators.required, Validators.pattern(new RegExp("^[\\w](?!.*?\\.{2})[\\w.]{1,18}[\\w]$"))]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(new RegExp("[A-Z]")), Validators.pattern(new RegExp("[a-z]")), Validators.pattern(new RegExp("[0-9]"))]]
     })
-    this.username=this.auth.getUserName();
+    this.username=this.auth.getUser().account;
   }
 
   get account(){

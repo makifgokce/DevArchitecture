@@ -1,22 +1,23 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environment';
 import { Post } from '../models/post';
 import { Observable } from 'rxjs';
+import { HttpEntityRepositoryService } from './http-entity-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(private http: HttpEntityRepositoryService<Post>) { }
   GetPosts(): Observable<Post[]>{
-    let headers = new HttpHeaders();
-    headers = headers.append("Content-Type", "application/json")
-    return this.httpClient.get<Post[]>(environment.getApiUrl + `/Post`, { headers: headers });
+    return this.http.getAll("/Post");
   }
   GetPost(id:number, slug:string): Observable<Post> {
-    let headers = new HttpHeaders();
-    headers = headers.append("Content-Type", "application/json")
-    return this.httpClient.get<Post>(environment.getApiUrl + `/Post/${id}/${slug}`, { headers: headers });
+    return this.http.get("/Post", id, slug);
+  }
+  AddPost(content: any){
+    this.http.add("/Post", content).subscribe(data => {
+      console.log("AddPost", data)
+    })
   }
 }

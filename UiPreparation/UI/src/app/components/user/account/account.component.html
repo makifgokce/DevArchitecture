@@ -1,1 +1,13 @@
-<p>account works!</p>
+<div class="container">
+  <div class="card bg-dark text-white">
+    <div class="card-header">{{ user.name }} {{ user.surname}}</div>
+    <div class="card-body">
+      {{ "Account" | localize }}
+      <input type="text" class="form-control" readonly [value]="user.account">
+      {{ "Name" | localize }}
+      <input type="text" class="form-control" readonly [value]="user.name">
+      {{ "Surname" | localize }}
+      <input type="text" class="form-control" readonly [value]="user.surname">
+    </div>
+  </div>
+</div>

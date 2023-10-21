@@ -13,7 +13,7 @@ export class TokenService {
   refreshToken():any{
     if(this.storageService.getItem("refreshToken") !== null)
     return this.httpClient
-        .post<any>(environment.getApiUrl + "/Auth/RefreshToken",{refreshToken:this.storageService.getItem("refreshToken")})
+        .post<any>(environment.getApiUrl + "/Auth/refresh-token",{refreshToken:this.storageService.getItem("refreshToken")})
         .pipe(tap(res => {
           if(res.success){
             this.storageService.setToken(res.data.token);

@@ -1,12 +1,13 @@
 <div class="container">
+    <router-link class="btn btn-success" [routerLink]="['/post', 'add'] | localize" *ngIf="checkClaim('CreatePostCommand')">{{"Add" | localize}}</router-link>
     <div class="card bg-dark text-white my-3" *ngFor="let p of posts">
-        <div class="card-header">
-            <router-link [routerLink]="['post', p.id, p.slug]">{{p.title}}</router-link>
-        </div>
-        <div class="card-body">
-        <h5 class="card-title">{{p.title}}</h5>
-        <p class="card-text">{{p.body}}</p>
-        <a href="#" class="btn btn-primary">Edit</a>
-        </div>
-    </div>
+      <div class="card-header">
+          <router-link class="cursor-pointer" [routerLink]="['post', p.id, p.slug]">{{p.title}}</router-link>
+      </div>
+      <div class="card-body">
+      <h5 class="card-title">{{p.title}}</h5>
+      <p class="card-text">{{p.body}}</p>
+      <router-link class="btn btn-primary" [routerLink]="['post', 'edit', p.id, p.slug]" *ngIf="checkClaim('UpdatePostCommand')">{{ "Edit" | localize }}</router-link>
+      </div>
+  </div>
 </div>

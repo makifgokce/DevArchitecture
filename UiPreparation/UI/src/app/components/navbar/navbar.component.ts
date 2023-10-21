@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit {
 	}
 
 	setUserName(){
-		this.userName = this.authService.getUserName();
+		this.userName = this.authService.getUser().account;
 	}
 	changeLanguage(lang:string){
 		this.translateService.use(lang)

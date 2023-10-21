@@ -6,8 +6,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item" *ngIf="!isLoggedIn()" routerLinkActive="active">
-                    <a class="nav-link" [routerLink]="['/register'] | localize">{{ "Register" | translate }}</a>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/post'] | localize">{{ "Posts" | translate }}</a>
                 </li>
                 <li class="nav-item" *ngIf="isLoggedIn()" routerLinkActive="active">
                   <a class="nav-link" (click)="logOut()">{{ "Logout" | translate }}</a>

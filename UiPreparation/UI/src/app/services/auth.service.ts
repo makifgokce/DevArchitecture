@@ -75,15 +75,10 @@ export class AuthService {
     );
   }
 
-  getUserName(): string {
-    return this.user.account;
+  getUser(): User {
+    return this.user;
   }
-  getName() {
-    return this.user.name;
-  }
-  getSurname() {
-    return this.user.surname;
-  }
+
   setClaims(){
     if ((this.claims == undefined || this.claims.length == 0) && this.storageService.getToken() != null && this.loggedIn()) {
 

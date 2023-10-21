@@ -20,6 +20,7 @@ import { AccountComponent } from './components/user/account/account.component';
 import { PostComponent } from './components/posts/post/post.component';
 import { PostListComponent } from './components/posts/post-list/post-list.component';
 import { UpdatePostComponent } from './components/posts/update-post/update-post.component';
+import { AddPostComponent } from './components/posts/add-post/add-post.component';
 export function layoutHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http,'/assets/i18n/','.json');
 }
@@ -34,7 +35,8 @@ export function layoutHttpLoaderFactory(http: HttpClient) {
     AccountComponent,
     PostComponent,
     PostListComponent,
-    UpdatePostComponent
+    UpdatePostComponent,
+    AddPostComponent
   ],
   imports: [
     BrowserModule,

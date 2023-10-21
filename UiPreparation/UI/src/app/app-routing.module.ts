@@ -13,6 +13,7 @@ import { RegisterComponent } from './components/user/register/register.component
 import { PostComponent } from './components/posts/post/post.component';
 import { PostListComponent } from './components/posts/post-list/post-list.component';
 import { UpdatePostComponent } from './components/posts/update-post/update-post.component';
+import { AddPostComponent } from './components/posts/add-post/add-post.component';
 
 const routes: Routes = [
   {
@@ -37,11 +38,17 @@ const routes: Routes = [
     data: {
       title: 'post'
     }
-  }
-  ,
+  },
   {
     path: "post",
     component: PostListComponent,
+    data: {
+      title: 'post'
+    }
+  },
+  {
+    path: "post/add",
+    component: AddPostComponent,
     data: {
       title: 'post'
     }
