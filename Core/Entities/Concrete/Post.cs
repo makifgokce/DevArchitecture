@@ -13,6 +13,7 @@ namespace Core.Entities.Concrete
             if (Id == 0)
             {
                 CreatedDate = DateTime.Now;
+                PublishDate = DateTime.Now;
             }
             UpdatedDate = DateTime.Now;
         }
@@ -26,6 +27,7 @@ namespace Core.Entities.Concrete
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public DateTime? DeletedDate { get; set; } = null;
+        public DateTime PublishDate { get; set; }
 
     }
 }

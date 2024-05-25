@@ -5,6 +5,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using ServiceStack;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,25 @@ namespace DataAccess.Concrete.EntityFramework
                 DeletedDate = (DateTime)p.DeletedDate,
                 AuthorName = u.Account
             }).FirstOrDefaultAsync();
+            return post;
+        }
+
+        public async Task<List<PostDto>> GetPosts()
+        {
+            var post = await Context.Posts.Join(Context.Users, p => p.AuthorId, u => u.UserId, (p, u) => new { Posts = p, Users = u }).Where(p => p.Posts.PublishDate <= DateTime.Now && p.Posts.DeletedDate == null).Select(x => new PostDto
+            {
+                Id = x.Posts.Id,
+                Title = x.Posts.Title,
+                Body = x.Posts.Body,
+                Description = x.Posts.Description,
+                Slug = x.Posts.Slug,
+                Keywords = x.Posts.Keywords,
+                CreatedDate = x.Posts.CreatedDate,
+                UpdatedDate = x.Posts.UpdatedDate,
+                AuthorId = x.Posts.AuthorId,
+                AuthorName = x.Users.Account,
+                PublishDate = x.Posts.PublishDate
+            }).OrderByDescending(x => x.PublishDate).ToListAsync();
             return post;
         }
     }

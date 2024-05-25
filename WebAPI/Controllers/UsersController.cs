@@ -1,7 +1,9 @@
 ﻿using Business.Handlers.Users.Commands;
 using Business.Handlers.Users.Queries;
 using Core.Entities.Dtos;
+using Core.Utilities.Results;
 using Entities.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -23,14 +25,28 @@ namespace WebAPI.Controllers
         /// <return>Users List</return>
         /// <response code="200"></response>
         [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResult<IEnumerable<UserDto>>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet]
-        public async Task<IActionResult> GetList()
+        [HttpGet()]
+        public async Task<IActionResult> GetList([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetUsersQuery()));
+            return GetResponseOnlyResultData(await Mediator.Send(new GetUsersQuery() { PageSize = pageSize, PageNumber = pageNumber}));
         }
 
+        /// <summary>
+        /// List Users
+        /// </summary>
+        /// <remarks>bla bla bla Users</remarks>
+        /// <return>Users List</return>
+        /// <response code="200"></response>
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDto>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [HttpGet("Data")]
+        public async Task<IActionResult> GetUser()
+        {
+            return GetResponseOnlyResultData(await Mediator.Send(new GetUserDataQuery()));
+        }
         /// <summary>
         /// User Lookup
         /// </summary>
@@ -52,6 +68,7 @@ namespace WebAPI.Controllers
         /// <remarks>bla bla bla </remarks>
         /// <return>Users List</return>
         /// <response code="200"></response>
+        [AllowAnonymous]
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]

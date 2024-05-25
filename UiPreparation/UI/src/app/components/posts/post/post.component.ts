@@ -4,6 +4,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Post } from 'src/app/models/post';
+import { AuthService } from 'src/app/services/auth.service';
 import { PostService } from 'src/app/services/post.service';
 import { environment } from 'src/environment';
 
@@ -14,7 +15,7 @@ import { environment } from 'src/environment';
 })
 export class PostComponent {
   public post: Post = new Post;
-  constructor(private httpClient: HttpClient, private title: Title, private meta: Meta, private activatedRoute: ActivatedRoute, private postService: PostService) {
+  constructor(private httpClient: HttpClient, private title: Title, private meta: Meta, private activatedRoute: ActivatedRoute, private postService: PostService, public auth: AuthService) {
     this.activatedRoute.params.subscribe(p => {
       //this.post = postService.GetPost(p['id'], p['slug'])
       postService.GetPost(p['id'], p['slug']).subscribe(x => {
@@ -34,5 +35,15 @@ export class PostComponent {
       })
     })
   }
+  keywords(){
+    let k = this.post.keywords?.split(',')
+    return k
+  }
+  checkClaim(claim: string){
+    return this.auth.claimGuard(claim)
+  }
   
+  deletePost(id: number){
+    this.postService.DeletePost(id);
+  }
 }

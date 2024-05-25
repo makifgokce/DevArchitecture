@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validator } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from 'src/app/models/post';
@@ -14,11 +13,11 @@ import { environment } from 'src/environment';
   styleUrls: ['./update-post.component.scss']
 })
 export class UpdatePostComponent {
+  editorConfig = {base_url: '/tinymce', suffix: '.min', plugins: 'lists link image table code help wordcount'}
   public post: Post = new Post;
   public updatePost!:FormGroup;
-  constructor(private httpClient: HttpClient, private title: Title, private meta: Meta, private activatedRoute: ActivatedRoute, private postService: PostService,private fb: FormBuilder, private authService: AuthService) {
+  constructor(private title: Title, private meta: Meta, private activatedRoute: ActivatedRoute, private postService: PostService,private fb: FormBuilder, private authService: AuthService) {
     this.activatedRoute.params.subscribe(p => {
-      //this.post = postService.GetPost(p['id'], p['slug'])
       postService.GetPost(p['id'], p['slug']).subscribe(x => {
         this.post = x
         this.title.setTitle(x.title + " | " + environment.getPageTitle)
@@ -36,12 +35,40 @@ export class UpdatePostComponent {
       })
     })
 
-    this.updatePost = this.fb.group({
-
-    })
+    this.updatePost = new FormGroup({
+      postTitle: new FormControl([this.post.title], Validators.required),
+      body: new FormControl([this.post.body], [Validators.required]),
+      slug: new FormControl([this.post.slug]),
+      description: new FormControl([this.post.description],[Validators.required]),
+      keywords: new FormControl([this.post.keywords], [Validators.required])
+    });
   }
   update(){
-    debugger
+    let contents = {
+      id: this.post.id,
+      title: this.postTitle?.value,
+      body: this.body?.value,
+      slug: this.slug?.value,
+      description: this.description?.value,
+      keywords: this.keywords?.value
+    }
+    this.postService.UpdatePost(contents);
+  }
+  
+  get postTitle(){
+    return this.updatePost.get('postTitle')
+  }
+  get body(){
+    return this.updatePost.get('body')
+  }
+  get slug(){
+    return this.updatePost.get('slug')
+  }
+  get description(){
+    return this.updatePost.get('description')
+  }
+  get keywords(){
+    return this.updatePost.get('keywords')
   }
   checkClaim(claim:string):boolean{
     return this.authService.claimGuard(claim)

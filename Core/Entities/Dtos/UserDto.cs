@@ -1,4 +1,6 @@
-﻿namespace Core.Entities.Dtos
+﻿using System.Text.Json.Serialization;
+
+namespace Core.Entities.Dtos
 {
     public class UserDto : IEntity
     {
@@ -14,6 +16,7 @@
         public string Password { get; set; }
         public int Status { get; set; }
         public bool Verified { get; set; }
+        [JsonIgnore]
         public string RefreshToken { get; set; }
     }
 }

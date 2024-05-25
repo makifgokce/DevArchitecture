@@ -14,6 +14,8 @@ import { PostComponent } from './components/posts/post/post.component';
 import { PostListComponent } from './components/posts/post-list/post-list.component';
 import { UpdatePostComponent } from './components/posts/update-post/update-post.component';
 import { AddPostComponent } from './components/posts/add-post/add-post.component';
+import { ProfileComponent } from './components/user/profile/profile.component';
+import { PrivateMessageComponent } from './components/messages/private-message/private-message.component';
 
 const routes: Routes = [
   {
@@ -49,6 +51,7 @@ const routes: Routes = [
   {
     path: "post/add",
     component: AddPostComponent,
+    canActivate: [LoginGuard],
     data: {
       title: 'post'
     }
@@ -75,6 +78,20 @@ const routes: Routes = [
     canActivate: [LoginGuard],
     data: {
       title: 'account'
+    }
+  },
+  {
+    path: "user/:account",
+    component: ProfileComponent,
+    data: {
+      title: 'profile'
+    }
+  },
+  {
+    path: "messages",
+    component: PrivateMessageComponent,
+    data: {
+      title: 'messages'
     }
   }
 ];

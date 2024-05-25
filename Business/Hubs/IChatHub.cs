@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,8 @@ namespace Business.Hubs
 {
     public interface IChatHub
     {
-        Task ReceiveMessage(string user, string message);
+        Task ReceiveMessage(string message);
+        Task PrivateMessage(string account, string message);
         Task Clients(List<ChatUser> users);
     }
 }

@@ -49,18 +49,11 @@ export class AppComponent {
       });
   }
   setTitle(): void{
-    const rt = this.getChild(this.activatedRoute);
+    const rt = this.shared.getChild(this.activatedRoute);
     rt.data.subscribe((data) => {
       this.translate.get('Title.'+ data['title']).subscribe(title => {
         this.title.setTitle(title + " | " + environment.getPageTitle)
       });
     });
-  }
-  getChild(activatedRoute: ActivatedRoute): ActivatedRoute {
-    if (activatedRoute.firstChild) {
-      return this.getChild(activatedRoute.firstChild);
-    } else {
-      return activatedRoute;
-    }
   }
 }

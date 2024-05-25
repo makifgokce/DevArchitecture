@@ -36,11 +36,17 @@ export class HttpEntityRepositoryService<T> {
     );
   }
   /// /api/[controller] - POST
+  save<_T>(_url: string, _content: any): Observable<_T> {
+    return this.httpClient.post<_T>(
+      environment.getApiUrl +  _url,
+      _content
+    );
+  }
+  /// /api/[controller] - POST
   add(_url: string, _content: any): Observable<T> {
     return this.httpClient.post<T>(
       environment.getApiUrl +  _url,
-      _content,
-      {headers : this.headers}
+      _content
     );
   }
 
@@ -48,15 +54,14 @@ export class HttpEntityRepositoryService<T> {
   update(_url: string, _content: any): Observable<T> {
     return this.httpClient.put<T>(
       environment.getApiUrl + _url,
-      _content,
-      {headers : this.headers}
+      _content
     );
   }
 
   // /api/[controller]/:id - DELETE
   delete(_url: string, id: number): Observable<T> {
     return this.httpClient.delete<T>(
-      environment.getApiUrl + _url  + id, {headers : this.headers}
+      environment.getApiUrl + _url  + id
     );
   }
 }

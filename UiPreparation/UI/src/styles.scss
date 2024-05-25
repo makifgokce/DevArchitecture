@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import '/node_modules/bootstrap/scss/bootstrap.scss';
 @import '/node_modules/alertifyjs/build/css/alertify.min.css';
-body {
+
+body[data-bs-theme="dark"] {
   background: #1a1a1a;
 }
 .logo {
@@ -19,6 +20,7 @@ $navbar-border-bottom-color: #ffffff54;
 
 $navbar-box-shadow-out: 0 0 5px 1px;
 $navbar-box-shadow-in: 0 0 1px 0;
+
 ::-webkit-scrollbar {
   width: 7px;
 }
@@ -76,9 +78,5 @@ $navbar-box-shadow-in: 0 0 1px 0;
     }
   }
 }
-.site-bg {
-  //background-image: url("./assets/feign/insane_sitting.png"), url("./assets/feign/angry_boi.png"), url("./assets/feign/invest_blue_boi.png");
-  background-position: bottom left, bottom, bottom right;
-  background-repeat: no-repeat;
-  background-size: 150px;
-}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

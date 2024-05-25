@@ -110,12 +110,16 @@ export class AuthService {
     return !isExpired;
   }
 
-  getCurrentUserId() {
-    this.jwtHelper.decodeToken(this.storageService.getToken()).userId;
+  getCurrentUserId(): number {
+    return this.jwtHelper.decodeToken(this.storageService.getToken()).userId;
   }
 
   claimGuard(claim: string): boolean {
-    var check = this.claims.some(function (item) {
+    if(!this.loggedIn())
+    {
+      return false;
+    }
+    var check = this.claims?.some(function (item) {
       return item == claim;
     })
     return check;

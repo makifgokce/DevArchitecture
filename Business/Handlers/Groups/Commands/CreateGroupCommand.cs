@@ -34,6 +34,11 @@ namespace Business.Handlers.Groups.Commands
             {
                 try
                 {
+                    var groupExists = _groupRepository.Get(x => x.GroupName == request.GroupName);
+                    if (groupExists != null)
+                    {
+                        return new ErrorResult(Messages.NameAlreadyExist);
+                    }
                     var group = new Group
                     {
                         GroupName = request.GroupName

@@ -27,7 +27,7 @@ public class PostController : BaseApiController
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] CreatePostCommand createPost)
     {
-        return GetResponseOnlyResultMessage(await Mediator.Send(createPost));
+        return GetResponseOnlyResult(await Mediator.Send(createPost));
     }
     /// <summary>
     /// Update Post.
@@ -41,21 +41,21 @@ public class PostController : BaseApiController
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdatePostCommand updatePost)
     {
-        return GetResponseOnlyResultMessage(await Mediator.Send(updatePost));
+        return GetResponseOnlyResult(await Mediator.Send(updatePost));
     }
     /// <summary>
     /// Delete Post.
     /// </summary>
-    /// <param name="deletePost"></param>
+    /// <param name="id"></param>
     /// <returns></returns>
     [Consumes("application/json")]
     [Produces("application/json", "text/plain")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-    [HttpDelete]
-    public async Task<IActionResult> Delete([FromBody] DeletePostCommand deletePost)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        return GetResponseOnlyResultMessage(await Mediator.Send(deletePost));
+        return GetResponseOnlyResult(await Mediator.Send(new DeletePostCommand() { Id = id }));
     }
 
     /// <summary>
@@ -68,16 +68,16 @@ public class PostController : BaseApiController
     [Produces("application/json", "text/plain")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDto>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-    [HttpGet]
+    [HttpGet()]
     public async Task<IActionResult> GetList()
     {
         return GetResponseOnlyResultData(await Mediator.Send(new GetPostsQuery()));
     }
     /// <summary>
-    /// List Posts
+    /// Get Post
     /// </summary>
-    /// <remarks>bla bla bla Posts</remarks>
-    /// <return>Posts List</return>
+    /// <param name="id"></param>
+    /// <param name="slug"></param>
     /// <response code="200"></response>
     [AllowAnonymous]
     [Produces("application/json", "text/plain")]

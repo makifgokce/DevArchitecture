@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PostService } from 'src/app/services/post.service';
 
 @Component({
@@ -8,24 +8,17 @@ import { PostService } from 'src/app/services/post.service';
   styleUrls: ['./add-post.component.scss']
 })
 export class AddPostComponent {
+  editorConfig = {base_url: '/tinymce', suffix: '.min', plugins: 'lists link image table code help wordcount'}
   addPost = new FormGroup({
     postTitle: new FormControl('', Validators.required),
     body: new FormControl('', [Validators.required]),
-    slug: new FormControl('', [Validators.required]),
+    slug: new FormControl(''),
     description: new FormControl('',[Validators.required]),
-    keywords: new FormControl('', [Validators.required])
+    keywords: new FormControl('', [Validators.required]),
+    publishDate: new FormControl('')
   });
 
   constructor(private postService: PostService) {
-    /*
-    this.addPost = this.fb.group({
-      postTitle: ['', Validators.required],
-      body: ['', [Validators.required]],
-      slug: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      keywords: ['', [Validators.required]],
-    })
-    */
   }
   save(){
     let contents = {
@@ -33,7 +26,8 @@ export class AddPostComponent {
       body: this.body?.value,
       slug: this.slug?.value,
       description: this.description?.value,
-      keywords: this.keywords?.value
+      keywords: this.keywords?.value,
+      publishDate: this.publishDate?.value
     }
     this.postService.AddPost(contents);
   }
@@ -52,4 +46,8 @@ export class AddPostComponent {
   get keywords(){
     return this.addPost.get('keywords')
   }
+  get publishDate(){
+    return this.addPost.get('publishDate')
+  }
 }
+

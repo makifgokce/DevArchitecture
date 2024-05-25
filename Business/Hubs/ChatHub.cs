@@ -1,13 +1,13 @@
 ﻿using AutoMapper.Internal;
-using Core.Utilities.IoC;
+using Business.BusinessAspects;
+using Core.Entities.Concrete;
+using DataAccess.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Business.Hubs
@@ -15,21 +15,52 @@ namespace Business.Hubs
     [AllowAnonymous]
     public class ChatHub : Hub<IChatHub>
     {
-        private readonly IHttpContextAccessor _contextAccessor;
         private static List<ChatUser> chatUsers = new List<ChatUser>();
+        private readonly IMessageRepository _messageRepository;
+        private readonly IHttpContextAccessor _httpContext;
+        private readonly IUserRepository _userRepository;
 
-        public ChatHub()
+        public ChatHub(IMessageRepository messageRepository, IHttpContextAccessor httpContext, IUserRepository userRepository)
         {
-            _contextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
+            _messageRepository = messageRepository;
+            _httpContext = httpContext;
+            _userRepository = userRepository;
+
         }
-        public void SayHello(string message)
+        [SecuredOperation(false)]
+        public async Task PrivateMessage(string account, string message)
         {
-            var cId = chatUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+
+            var userId = _httpContext.HttpContext.User.Claims.FirstOrDefault(x => x.Type.EndsWith("nameidentifier"))?.Value;
+            var u = chatUsers.FirstOrDefault(x => x.Account == account);
+            var sender = await _userRepository.GetAsync(x => x.UserId == Convert.ToInt32(userId));
+            var receiver = await _userRepository.GetAsync(x => x.Account == account);
+            if (sender == null || receiver == null)
+            {
+                return;
+            }
+
+            _messageRepository.Add(new Message
+            {
+                ReceiverId = receiver.UserId,
+                Content = message,
+                SenderId = sender.UserId,
+                Location = MessageLoc.Private
+            });
+            var res = await _messageRepository.SaveChangesAsync();
+            if (u != null && res != 0)
+            {
+                await Clients.Client(u.ConnectionId).ReceiveMessage(message);
+            }
+        }
+
+        public static List<ChatUser> GetUsers()
+        {
+            return chatUsers;
         }
 
         public override Task OnConnectedAsync()
         {
-            Console.WriteLine(Clients.All.ToString());
             var item = chatUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
             var uId = Convert.ToInt32(Context.GetHttpContext().User.Claims.FirstOrDefault(x => x.Type.EndsWith("nameidentifier"))?.Value);
             var uAcc = Context.GetHttpContext().User.Claims.FirstOrDefault(x => x.Type.EndsWith("/name"))?.Value;
@@ -41,7 +72,7 @@ namespace Business.Hubs
                 {
                     ConnectionId = Context.ConnectionId,
                     UId = uId,
-                    Account = uAcc != null ? uAcc : String.Format("Guest {0}", Context.ConnectionId),
+                    Account = uAcc != null ? uAcc : "",
                     UserAgent = userAgent,
                     Ip = ip.ToString(),
                     LastOnline = DateTime.Now

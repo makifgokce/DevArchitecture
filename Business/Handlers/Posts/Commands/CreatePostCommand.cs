@@ -1,5 +1,4 @@
-﻿
-using Business.Constants;
+﻿using Business.Constants;
 using Core.Aspects.Autofac.Caching;
 using Business.BusinessAspects;
 using Core.Aspects.Autofac.Logging;
@@ -14,7 +13,8 @@ using Core.Utilities.Results;
 using System.Linq;
 using Core.Entities.Concrete;
 using System;
-using Slugify;
+using Business.Helpers;
+using Castle.Core.Internal;
 
 namespace Business.Handlers.Posts.Commands
 {
@@ -24,19 +24,18 @@ namespace Business.Handlers.Posts.Commands
     {
         public string Title {  get; set; }
         public string Body { get; set; }
-        public string Slug { get; set; }
+        public string? Slug { get; set; }
         public string Description { get; set; }
         public string Keywords { get; set; }
+        public string? PublishDate { get; set; }
         public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, IResult>
         {
             private readonly IPostRepository _postRepository;
             private readonly IHttpContextAccessor _contextAccessor;
-            private readonly ISlugHelper _slugHelper;
-            public CreatePostCommandHandler(IPostRepository postRepository, IHttpContextAccessor httpContext, ISlugHelper slugHelper)
+            public CreatePostCommandHandler(IPostRepository postRepository, IHttpContextAccessor httpContext)
             {
                 _postRepository = postRepository;
                 _contextAccessor = httpContext;
-                _slugHelper = slugHelper;
             }
 
             [CacheRemoveAspect()]
@@ -50,14 +49,16 @@ namespace Business.Handlers.Posts.Commands
                 {
                     return new ErrorResult(Messages.AuthorizationsDenied);
                 }
+                var publish = request.PublishDate.IsNullOrEmpty() ? DateTime.Now : Convert.ToDateTime(request.PublishDate);
                 var post = new Post
                 {
                     Title = request.Title,
                     Body = request.Body,
-                    Slug = String.IsNullOrEmpty(request.Slug.Trim()) ? _slugHelper.GenerateSlug(request.Title) : _slugHelper.GenerateSlug(request.Slug),
+                    Slug = String.IsNullOrEmpty(request.Slug.Trim()) ? request.Title.Trim().Slugify() : request.Slug.Trim().Slugify(),
                     Description = request.Description,
                     Keywords = request.Keywords,
-                    AuthorId = Convert.ToInt32(userId)
+                    AuthorId = Convert.ToInt32(userId),
+                    PublishDate = publish < DateTime.Now ? DateTime.Now : publish,
                 };
                 _postRepository.Add(post);
                 await _postRepository.SaveChangesAsync();

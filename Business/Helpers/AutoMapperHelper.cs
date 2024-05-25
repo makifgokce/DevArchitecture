@@ -10,6 +10,7 @@ namespace Business.Helpers
         {
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Post, PostDto>().ReverseMap();
+            CreateMap<Message, MessageDto>().ReverseMap();
         }
     }
 }

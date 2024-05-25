@@ -1,12 +1,12 @@
 export class Post {
-    id!: number;
-    title!: string;
-    body!: string;
-    description!: string;
-    keywords!: string;
-    slug!: string;
-    authorId!: number;
-    authorName!: string;
-    createdDate!: string;
-    updatedDate!: string;
+    id: number = 0;
+    title: string = "";
+    body: string = "";
+    description: string = "";
+    keywords: string = "";
+    slug: string = "";
+    authorId: number = 0;
+    authorName: string = "";
+    createdDate: string = "";
+    updatedDate: string = "";
 }

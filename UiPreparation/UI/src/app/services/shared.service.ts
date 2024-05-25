@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs'
 
 @Injectable({
@@ -13,5 +14,13 @@ export class SharedService {
   }
   getChangeUserNameClickEvent():Observable<any>{
     return this.subject.asObservable();
+  }
+  
+  getChild(activatedRoute: ActivatedRoute): ActivatedRoute {
+    if (activatedRoute.firstChild) {
+      return this.getChild(activatedRoute.firstChild);
+    } else {
+      return activatedRoute;
+    }
   }
 }

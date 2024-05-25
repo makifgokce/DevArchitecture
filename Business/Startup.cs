@@ -19,7 +19,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Slugify;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
@@ -73,7 +72,6 @@ namespace Business
             services.AddAutoMapper(typeof(ConfigurationManager));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(BusinessStartup).GetTypeInfo().Assembly);
-            services.AddTransient<ISlugHelper, SlugHelper>();
 
             ValidatorOptions.Global.DisplayNameResolver = (type, memberInfo, expression) =>
             {
@@ -101,6 +99,7 @@ namespace Business
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
 
             services.AddDbContext<ProjectDbContext, DArchInMemory>(ServiceLifetime.Transient);
             services.AddSingleton<MongoDbContextBase, MongoDbContext>();
@@ -124,6 +123,7 @@ namespace Business
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddDbContext<ProjectDbContext, MsDbContext>();
 
             services.AddSingleton<MongoDbContextBase, MongoDbContext>();
@@ -146,6 +146,7 @@ namespace Business
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
 
 
             services.AddDbContext<ProjectDbContext, MsDbContext>();

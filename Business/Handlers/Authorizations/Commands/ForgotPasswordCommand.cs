@@ -3,12 +3,14 @@ using Business.Constants;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Logging;
 using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
+using Core.Utilities.Mail;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Toolkit;
 using DataAccess.Abstract;
 using MediatR;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,10 +24,12 @@ namespace Business.Handlers.Authorizations.Commands
         public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand, IResult>
         {
             private readonly IUserRepository _userRepository;
+            private readonly IMailService _mailService;
 
-            public ForgotPasswordCommandHandler(IUserRepository userRepository)
+            public ForgotPasswordCommandHandler(IUserRepository userRepository, IMailService mailService)
             {
                 _userRepository = userRepository;
+                _mailService = mailService;
             }
 
             /// <summary>
@@ -52,7 +56,6 @@ namespace Business.Handlers.Authorizations.Commands
                 user.UpdateContactDate = DateTime.Now;
                 _userRepository.Update(user);
                 await _userRepository.SaveChangesAsync();
-
                 return new SuccessResult(Messages.Updated);
             }
         }

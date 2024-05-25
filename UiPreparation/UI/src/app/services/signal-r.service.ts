@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { LocalStorageService } from './local-storage.service';
-import { Subject } from 'rxjs';
+import { Observable} from 'rxjs';
 import { HubConnection } from '@microsoft/signalr';
 import { environment } from 'src/environment';
+import { ChatUser } from '../models/chat-user';
 @Injectable({
   providedIn: 'root'
 })
 export class SignalRService {
   private con!: HubConnection;
-  public clients = new Subject();
+  private clients = Observable<ChatUser[]>;
   constructor(private lStorage: LocalStorageService) {
     this.Init()
   }
@@ -17,15 +18,26 @@ export class SignalRService {
   Init(){
     this.con = new signalR.HubConnectionBuilder()
     .withUrl(`${environment.getHubsUrl}chatHub`,{
+      transport: signalR.HttpTransportType.LongPolling,
       accessTokenFactory:() => { return this.lStorage.getToken()}
     })
     .withAutomaticReconnect()
-    .configureLogging(signalR.LogLevel.Debug)
     .build();
+
     this.con.on("Clients", cl => {
       this.clients = cl
+    })
+    this.con.on("ReceiveMessage", msg => {
+      console.log("ReceiveMessage", msg)
     })
     this.con.start()
   }
 
+  get Clients(){
+    return this.clients
+  }
+
+  PrivateMessage(account: string, message: string){
+    this.con.send("PrivateMessage", account, message)
+  }
 }

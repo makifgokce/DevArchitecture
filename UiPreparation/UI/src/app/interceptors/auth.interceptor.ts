@@ -34,7 +34,8 @@ export class AuthInterceptor implements HttpInterceptor {
             this.alertify.error(error.error)
           }
           if (typeof error.error == "object"){
-            this.alertify.error(error.error.message)
+            var m = error.error.message != undefined ? error.error.message : error.error.text
+            this.alertify.error(m)
           }
           return throwError(() => error);
         }

@@ -16,9 +16,9 @@
     "TranslateWords": "Dil Çevirileri",
     "Management": "Yönetim",
     "AppMenu": "Uygulama",
-    "Added": "Başarıyla Eklendi.",
-    "Updated": "Başarıyla Güncellendi.",
-    "Deleted": "Başarıyla Silindi.",
+    "Added": "Eklendi",
+    "Updated": "Güncellendi",
+    "Deleted": "Silindi",
     "OperationClaimExists": "Bu operasyon izni zaten mevcut.",
     "StringLengthMustBeGreaterThanThree": "Lütfen En Az 3 Karakterden Oluşan Bir İfade Girin.",
     "CouldNotBeVerifyCid": "Kimlik No Doğrulanamadı.",
@@ -80,137 +80,32 @@
     "DeleteConfirm": "Emin misiniz?",
     "UserNotActivated": "Hesabınız aktif değil!",
     "UserBanned": "Hesabınız engellendi!",
+    "UpdatedDate": "{{value}} tarihinde düzenlendi.",
+    "CreatedDate": "{{value}} tarihinde oluşturuldu.",
+    "Settings": "Ayarlar",
+    "ProfileSettings": "Profil Ayarları",
+    "Upload": "Yükle",
+    "Male": "Erkek",
+    "Female": "Kadın",
+    "NotActivated": "Aktif Değil",
+    "Activated": "Aktif",
+    "Banned": "Engellendi",
+    "Messages": "Mesajlar",
     "ROUTES": {
       "home": "",
       "login": "login",
       "register": "register",
-      "feign": "feign",
-      "account": "account"
+      "account": "account",
+      "user": "user",
+      "messages": "messages"
     },
     "Title": {
       "home": "Anasayfa",
       "login": "Oturum Aç",
       "register": "Kayıt Ol",
-      "feign": "Feign",
       "account": "Hesap",
-      "post": "Gönderi"
-    },
-    "innocent": "Masum",
-    "imposter": "Hain",
-    "neutral": "Tarafsız",
-    "roles":{
-      "doctor":{
-        "name": "Doktor",
-        "info0": "Hedef aldığı oyuncu o gece öldürülmüşse onu canlandırır.",
-        "info1": "2 gece üst üste aynı oyuncuya gidemez.",
-        "info2": "Öldürülen bir oyuncuyu kurtardığını anlayabilir.O gece ziyaret ettiği evde artı işaretleri çıkar.",
-        "info3": "Rolü ister masum ister hain olsun, doktor her oyuncuyu canlandırır."
-      },
-      "invest":{
-        "name": "Dedektif",
-        "info0": "Gece hedef aldığı oyuncunun rolünü araştırır.",
-        "info1": "Araştırdığı oyuncuda 2 rol görür. Bunlardan biri gerçek rolü diğeri ise rastgele gelen bir roldür.",
-        "info2": "Temizlikçi tarafından temizlenmiş oyuncularda herhangi bir rol göremez. (Sarı soru işareti)",
-        "info3": "Eğer suçlayıcı tarafından suçlanmış bir oyuncuya bakarsa, gerçek rolünü göreceği kart yerine hainlerden (kırmızı) bir rol görür."
-      },
-      "lookout":{
-        "name": "Gözcü",
-        "info0": "Hedef aldığı oyuncu o gece öldürülmüşse onu canlandırır.",
-        "info1": "2 gece üst üste aynı oyuncuya gidemez.",
-        "info2": "Öldürülen bir oyuncuyu kurtardığını anlayabilir.O gece ziyaret ettiği evde artı işaretleri çıkar.",
-        "info3": "Rolü ister masum ister hain olsun, doktor her oyuncuyu canlandırır."
-      },
-      "trapper": {
-        "name": "Tuzakçı",
-        "info0": "Gece istediği bir oyuncunun evinin önüne tuzak kurar.",
-        "info1": "Gece tuzak kurduğu eve gelen oyuncuları yakalar ve o gece o eve gitmelerini engeller.",
-        "info2": "Tuzak kurduğu eve birden fazla oyuncu gelirse tuzağına rastgele biri yakalanır. Birden fazla kişi yakalanmaz.",
-        "info3": "Seri katil tuzakçının tuzaklarına yakalanmaz.",
-        "info4": "Bir başka tuzakçının tuzaklarına yakalanabilir."
-      },
-      "snitch": {
-        "name": "İspiyoncu",
-        "info0": "Gece hedef aldığı evdeki oyuncunun rolünü öğrenir.",
-        "info1": "Gece hedef aldığı oyuncunun rolünü sabah öğrenir ancak bu bilgiyi sadece kendisi görebilir.",
-        "info2": "İspiyoncunun sadece bir tane ispiyonlama hakkı vardır.",
-        "info3": "İspiyonlamaya gitmeye hedeflediği kişi o gece ölürse ispiyoncu evden hiç çıkmaz ve hakkını kaybetmez"
-      },
-      "provoker": {
-        "name": "Provakatör",
-        "info0": "Gece hedef aldığı oyuncunun sabah oylamaya fazla oyla başlamasını sağlar.",
-        "info1": "Gece hedef aldığı oyuncu sabah oylamaya direkt olarak iki oy almış olarak başlar.",
-        "info2": "Provakatörün hedef aldığı kişi gece provake edildiğini duyar.",
-        "info3": "Gece hedef aldığı oyuncu sabah oylamaya direkt olarak iki oy almış olarak başlar.",
-        "info4": "Provakatörün 2 adet provake hakkı vardır.",
-        "info5": "Provoke ettiği kişi o gece ölürse yine de animasyon gerçekleşir ve haklarından birini kaybeder."
-      },
-      "police": {
-        "name": "Polis",
-        "info0": "Gece hedef aldığı oyuncu evinden çıkamaz ve rolünü kullanamaz.",
-        "info1": "Polisin hedef aldığı oyuncu o gece rolünü kullanamaz.",
-        "info2": "Eğer survivora giderse o gece survivorın kalkan kullanmasını engeller ve saldırıya açık hale getirir.",
-        "info3": "Bombacının bomba atmasını engelleyebilir ancak patlatacağı zaman bombacıyı bloklayamaz.",
-        "info4": "Bir polis bir başka polis tarafından tutulabilir.Polislerin birbirlerine karşı üstünlükleri rastgeledir. (Hainlerde dahil)",
-        "info5": "Polis 2 gece üst üste aynı oyuncuyu tutamaz."
-      },
-      "blamer": {
-        "name": "Suçlayıcı",
-        "info0": "Hedef aldığı oyuncunun rolünün hain olarak görünmesini sağlar.",
-        "info1": "Tarafsız veya masum olan oyuncunun rolünün hain görünmesini sağlayabilir.",
-        "info2": "Bir kere suçlanmış olan bir oyuncu oyun sonuna kadar hain görünür.",
-        "info3": "Suçlayıcının suçladığı oyuncu dedektif tarafından araştırıldığında dedektif o oyuncunun suçlanmış halini görebilir.",
-        "info4": "Hain versiyonu olan roller suçlandığında o rolün hain şekli, hain versiyonu olmayan roller ise rastgele bir hain rolü olarak görünür."
-      },
-      "cleaner": {
-        "name": "Temizlikçi",
-        "info0": "Gece hedef aldığı oyuncunun rolünü siler ve oyunun geri kalan kısmında bilinmeyen olarak kalır.",
-        "info1": "Temizlikçinin rolünü temizlediği oyuncu ölse dahi rolü bilinmeyen olarak görünür.",
-        "info2": "Temizlikçinin rolünü temizlediği oyuncu dedektif tarafından araştırıldığında rolü bilinmeyen olarak görünür.",
-        "info3": "Temizlikçi hain arkadaşının rolünü de temizleyebilir.",
-        "info4": "Temizlikçi hırsızın rolünü temizilerse ve hırsız başka birisinin rolünü çalarsa hırsız bilinmeyen olarak değil çaldığı rol olarak gözükür."
-      },
-      "thief": {
-        "name": "Hırsız",
-        "info0": "Hedef aldığı oyuncuyu öldürerek rolünü çalar.",
-        "info1": "Hırsız öldürerek rol çalma özelliğini sadece bir kere kullanabilir.",
-        "info2": "Eğer hırsızın öldürdüğü oyuncu doktor tarafından canlandırılırsa hırsız rolünü çalamaz ve tekrar birine saldırabilir.",
-        "info3": "Hırsız tarafından öldürülen oyuncunun rolü bilinmeyen olarak görünür.",
-        "info4": "Hırsız provakatör, ispiyoncu veya survivordan rol çalarsa oyuncular haklarını kullanmış da olsa hırsız rolü çaldığında hakları tam olur.",
-        "info5": "Saldırdığı kişi kaldırılır ya da bir kalkan tarafından korunursa kendisine bir hırsız tarafından saldırıldığını oyuncu gözlemleyebilir."
-      },
-      "sk": {
-        "name": "Seri Katil",
-        "info0": "Gece istediği herhangi bir oyuncuyu hedefleyip öldürür.",
-        "info1": "Seri katil tüm rollerden önce aksiyon alır ve rolünü kullanır.",
-        "info2": "Tuzakçının tuzaklarına yakalanmaz.",
-        "info3": "Polis tarafından tutulamaz.",
-        "info4": "Gözcü tarafından görülmez.",
-        "info5": "Seri katil tarafından öldürülen oyuncuların rolü bilinmeyen olarak görünür."
-      },
-      "bomber": {
-        "name": "Bombacı",
-        "info0": "Her gece bir eve dinamit koyar ve istediği gece patlatır.",
-        "info1": "Bir gecede ya bomba atabilir ya da patlatabilir. Bir gecede iki eylemi birden gerçekleştiremez.",
-        "info2": "Bombayı patlatacağı zaman o güne kadar attığı bütün bombaları tek seferde patlatır.",
-        "info3": "Bombacı bomba patlatacağı zaman polis tarafından tutulamaz.",
-        "info4": "Her tur sadece bir eve bomba atabilir.",
-        "info5": "Bombacı oyunu sadece tek başına kazanabilir."
-      },
-      "survivor": {
-        "name": "Survivor",
-        "info0": "Survivor gece kendisini yapılan saldırılara karşı koruyabilir.",
-        "info1": "Oyunun sonuna kaldığı takdirde masumlar veya hainler ile birlikte oyunu kazanabilir. İstediği tarafa oynamakta özgürdür.",
-        "info2": "Survivorın sadece üç kalkanı vardır.Kalkanları bittiğinde korumasız kalır.",
-        "info3": "Gece polis tarafından tutulursa kalkan basamaz ve kendini koruyamaz."
-      },
-      "insane": {
-        "name": "Deli",
-        "info0": "Deli kendini gördüğü rolün özelliklerine sahip olur.",
-        "info1": "Kendini gördüğü rolün özelliklerine sahip olur ama aslında hiçbir şey yapamaz.",
-        "info2": "Kendini doktor sana delinin gittiği oyuncu da onun geldiğini görür.",
-        "info3": "Deli kendini sadece masum rollerinden birinde görebilir.",
-        "info4": "Deli gözücünün hedef aldığı eve giderse gözcü delinin geldiğini görür.",
-        "info5": "Deli rolü, araştırmacı, gözcü veya ispiyoncu iken bazen tesadüfen doğru da görebilir."
-      }
+      "post": "Gönderi",
+      "profile": "Profil",
+      "messages": "Mesajlar"
     }
   }

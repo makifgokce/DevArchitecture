@@ -11,12 +11,19 @@ using Core.Entities.Dtos;
 using AutoMapper;
 using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Caching;
+using Business.Helpers;
+using Core.Entities.Concrete;
+using Core.Utilities.Uri;
+using System;
 
 namespace Business.Handlers.Posts.Queries
 {
 
     public class GetPostsQuery : IRequest<IDataResult<IEnumerable<PostDto>>>
     {
+        public GetPostsQuery()
+        {
+        }
 
         public class PostQueryHandler : IRequestHandler<GetPostsQuery, IDataResult<IEnumerable<PostDto>>>
         {
@@ -30,13 +37,11 @@ namespace Business.Handlers.Posts.Queries
             }
             [LogAspect(typeof(FileLogger))]
             [PerformanceAspect(5)]
-            [CacheAspect(10)]
             public async Task<IDataResult<IEnumerable<PostDto>>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
             {
-                var posts = await _postRepository.GetListAsync(x => x.DeletedDate == null);
-                var list = posts.Select(pt => _mapper.Map<PostDto>(pt)).ToList();
+                var posts = await _postRepository.GetPosts();
 
-                return new SuccessDataResult<IEnumerable<PostDto>>(list);
+                return new SuccessDataResult<IEnumerable<PostDto>>(posts);
             }
         }
     }

@@ -12,5 +12,6 @@ namespace DataAccess.Abstract
     public interface IPostRepository : IEntityRepository<Post>
     {
         Task<PostDto> GetPost(int id, string slug);
+        Task<List<PostDto>> GetPosts();
     }
 }

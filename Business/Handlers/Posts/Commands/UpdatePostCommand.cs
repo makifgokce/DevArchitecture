@@ -1,5 +1,4 @@
-﻿
-using Business.Constants;
+﻿using Business.Constants;
 using Core.Aspects.Autofac.Caching;
 using Business.BusinessAspects;
 using Core.Aspects.Autofac.Logging;
@@ -13,7 +12,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System;
-using Slugify;
+using Core.CrossCuttingConcerns.Caching;
+using System.Collections.Generic;
+using Business.Helpers;
 
 namespace Business.Handlers.Posts.Commands
 {
@@ -30,30 +31,33 @@ namespace Business.Handlers.Posts.Commands
         public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, IResult>
         {
             private readonly IPostRepository _postRepository;
-            private readonly IMediator _mediator;
+            private readonly ICacheManager _cacheManager;
             private readonly IHttpContextAccessor _httpContext;
-            private readonly ISlugHelper _slugHelper;
 
-            public UpdatePostCommandHandler(IPostRepository postRepository, IMediator mediator, IHttpContextAccessor httpContext, ISlugHelper slugHelper)
+            public UpdatePostCommandHandler(IPostRepository postRepository, ICacheManager cacheManager, IHttpContextAccessor httpContext)
             {
                 _postRepository = postRepository;
-                _mediator = mediator;
+                _cacheManager = cacheManager;
                 _httpContext = httpContext;
-                _slugHelper = slugHelper;
             }
 
             [CacheRemoveAspect()]
             [LogAspect(typeof(FileLogger))]
-            [SecuredOperation(Priority = 1)]
+            [SecuredOperation(false, Priority = 1)]
             public async Task<IResult> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
             {
                 var userId = _httpContext.HttpContext.User.Claims.FirstOrDefault(x => x.Type.EndsWith("nameidentifier"))?.Value;
-                var post = await _postRepository.GetAsync(x => x.Id == request.Id && x.AuthorId == Convert.ToInt32(userId));
+                var oprClaims = _cacheManager.Get<IEnumerable<string>>($"{CacheKeys.UserIdForClaim}={userId}");
+                var post = await _postRepository.GetAsync(x => x.Id == request.Id);
                 if (post == null)
                 {
-                    return new ErrorResult(Messages.Unknown);
+                    return new ErrorResult(Messages.NotFound);
                 }
-                post.Slug = String.IsNullOrEmpty(request.Slug.Trim()) ? _slugHelper.GenerateSlug(request.Title.Trim()) : _slugHelper.GenerateSlug(request.Slug.Trim());
+                if (post.AuthorId != Convert.ToInt32(userId) && !oprClaims.Contains("UpdatePostCommand"))
+                {
+                    return new ErrorResult(Messages.AccessDenied);
+                }
+                post.Slug = String.IsNullOrEmpty(request.Slug.Trim()) ? request.Title.Trim().Slugify() : request.Slug.Trim().Slugify();
                 post.Title = request.Title;
                 post.Description = request.Description;
                 post.Keywords = request.Keywords;
