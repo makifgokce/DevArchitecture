@@ -1,0 +1,82 @@
+/* You can add global styles to this file, and also import other style files */
+@import '/node_modules/bootstrap/scss/bootstrap.scss';
+@import '/node_modules/alertifyjs/build/css/alertify.min.css';
+
+body[data-bs-theme="dark"] {
+  background: #1a1a1a;
+}
+.logo {
+  box-shadow: 0 0 7px 1px;
+  color: #fff;
+  border-radius: 50%;
+}
+.logo-s{
+  width: 32px;
+  height: 32px;
+  margin-right: 2px;
+}
+$navbar-border-bottom: 1px;
+$navbar-border-bottom-color: #ffffff54;
+
+$navbar-box-shadow-out: 0 0 5px 1px;
+$navbar-box-shadow-in: 0 0 1px 0;
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1c1c1c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3c3c3c;
+  border-radius: 14px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8f39ce;
+}
+
+::selection {
+  background: #8f39ce;
+  color: #fff;
+}
+.dropdown-menu.show {
+  background-color: $dark;
+}
+.dropdown.menu {
+  border: $dropdown-border-width solid $dropdown-border-color;
+}
+.navbar {
+  border-bottom: $navbar-border-bottom solid $navbar-border-bottom-color;
+  box-shadow: $navbar-box-shadow-out $navbar-border-bottom-color,
+    inset $navbar-box-shadow-in $navbar-border-bottom-color;
+  background-color: $dark;
+  .nav-item:hover {
+    background-color: #1b1b1b;
+  }
+  .dropdown-toggle {
+    cursor: pointer;
+  }
+  .dropdown-item.dropdown-toggle::after {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0;
+    content: "";
+    border-top: 0.3em solid transparent;
+    border-right: 0;
+    border-bottom: 0.3em solid transparent;
+    border-left: 0.3em solid;
+  }
+  .dropdown-item {
+    margin: 0px;
+    color: $white;
+    cursor: pointer;
+    &:hover {
+      background-color: #8f39ce;
+    }
+  }
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using Core.ApiDoc;
+﻿using Core.ApiDoc;
 using Core.CrossCuttingConcerns.Caching;
 using Core.CrossCuttingConcerns.Caching.Microsoft;
 using Core.Utilities.IoC;
@@ -13,6 +11,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Core.DependencyResolvers
 {

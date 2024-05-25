@@ -1,0 +1,291 @@
+<div class="container-fluid py-0 px-3">
+
+  <h1 class="h3 mb-3">{{"Settings" | translate}}</h1>
+
+  <div class="row">
+    <div class="col-md-3 col-xl-2">
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">{{"ProfileSettings" | translate}}</h5>
+        </div>
+
+        <div class="list-group list-group-flush" role="tablist">
+          <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#account" role="tab" aria-selected="true">
+            {{"Account" | translate}}
+          </a>
+          <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password" role="tab" aria-selected="false" tabindex="-1">
+            {{"Password" | translate}}
+          </a>
+        
+        <div class="card-header">
+          <h5 class="card-title mb-0">{{"Admin" | translate}}</h5>
+        </div>
+          <a class="list-group-item list-group-item-action" *ngIf="checkClaim('GetUsersQuery')" data-bs-toggle="list" href="#clients" role="tab" aria-selected="false" tabindex="-1">
+            {{"Users" | translate}}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9 col-xl-10">
+      <div class="tab-content">
+        <div class="tab-pane fade active show" id="account" role="tabpanel">
+
+          <div class="card">
+            <div class="card-body">
+              
+              <div class="col-md-8">
+                <div class="form-floating mb-3">
+                  <label for="inputAccount">{{"Account" | translate}}</label>
+                  <input type="text" class="form-control" id="inputAccount" readonly disabled [value]="user.account">
+                </div>
+              </div>
+              <div class="col-md-4"></div>
+              <form>
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-floating mb-3">
+                      <label for="inputNotes">{{"Notes" | translate}}</label>
+                      <textarea rows="4" class="form-control" id="inputNotes">{{user.notes}}</textarea>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="text-center">
+                      <img alt="Profile Image" src="./assets/img/profile-m.svg" class="rounded-circle img-responsive mt-2" width="128" height="128">
+                      <div class="mt-2">
+                        <span class="btn btn-primary"><i class="material-symbols-outlined">file_upload</i> {{ "Upload" | translate }}</span>
+                      </div>
+                      <small>For best results, use an image at least 128px by 128px in .jpg format</small>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">{{"Save" | translate}}</button>
+              </form>
+
+            </div>
+          </div>
+
+          <div class="card mt-2">
+            <div class="card-header">
+
+              <h5 class="card-title mb-0">Private info</h5>
+            </div>
+            <div class="card-body">
+              <form>
+                <div class="row">
+                  <div class="mb-3 col-md-6">
+                    <label for="inputName">{{"Name" | translate }}</label>
+                    <input type="text" class="form-control" id="inputName" placeholder="{{'Name' | translate}}" [value]="user.name">
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="inputSurname">{{"Surname" | translate }}</label>
+                    <input type="text" class="form-control" id="inputSurname" placeholder="{{'Surname' | translate }}" [value]="user.surname">
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="inputEmail">{{"Email" | translate}}</label>
+                  <input type="email" class="form-control" id="inputEmail" placeholder="{{'Email' | translate}}" [value]="user.email">
+                </div>
+                <div class="mb-3">
+                  <label for="inputAddress">{{"Address" | translate}}</label>
+                  <input type="text" class="form-control" id="inputAddress" placeholder="" [value]="user.address">
+                </div>
+                <button type="submit" class="btn btn-primary">{{"Save" | translate}}</button>
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="tab-pane fade" id="password" role="tabpanel">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{"Password" | translate}}</h5>
+
+              <form>
+                <div class="mb-3">
+                  <label for="inputPasswordCurrent">{{"Password" | translate}}</label>
+                  <input type="password" class="form-control" id="inputPasswordCurrent">
+                </div>
+                <div class="mb-3">
+                  <label for="inputPasswordNew">{{"NewPassword" | translate}}</label>
+                  <input type="password" class="form-control" id="inputPasswordNew">
+                </div>
+                <div class="mb-3">
+                  <label for="inputPasswordNew2">{{"ConfirmPassword" | translate}}</label>
+                  <input type="password" class="form-control" id="inputPasswordNew2">
+                </div>
+                <button type="submit" class="btn btn-primary">{{"ChangePassword" | translate}}</button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-pane fade" id="clients" role="tabpanel" *ngIf="checkClaim('GetUsersQuery')">
+          <div class="table-responsive">
+            <table mat-table class="mat-elevation-z8" [dataSource]="dataSource" matSort>
+              <ng-container matColumnDef="userId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ID' | translate}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.userId}} </td>
+              </ng-container>
+              
+              <ng-container matColumnDef="account">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Account' | translate}} </th>
+                <td mat-cell *matCellDef="let element"> <a class="btn btn-sm text-white" [routerLink]="['/user', element.account] | localize">{{element.account}}</a> <span *ngIf="element.verified" class="material-symbols-outlined" [title]="'Verified' | translate">verified</span></td>
+              </ng-container>
+              
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Name' | translate}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+              
+              <ng-container matColumnDef="surname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Surname' | translate}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
+              </ng-container>
+              
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Email' | translate}} </th>
+                <td mat-cell *matCellDef="let element"> <a [href]="'mailto:' + element.email">{{element.email}}</a> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="mobilePhones">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Phone' | translate}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.mobilePhones}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Gender' | translate}} </th>
+                <td mat-cell *matCellDef="let element">
+                  <container-element [ngSwitch]="element.gender">
+                    <some-element *ngSwitchCase="0">{{"Unknown" | translate}}</some-element>
+                    <some-element *ngSwitchCase="1">{{"Male" | translate}}</some-element>
+                    <some-element *ngSwitchCase="2">{{"Female" | translate}}</some-element>
+                  </container-element>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Status' | translate}} </th>
+                <td mat-cell *matCellDef="let element">
+                  <container-element [ngSwitch]="element.status">
+                    <some-element *ngSwitchCase="0">{{"NotActivated" | translate}}</some-element>
+                    <some-element *ngSwitchCase="1">{{"Activated" | translate}}</some-element>
+                    <some-element *ngSwitchCase="2">{{"Deleted" | translate}}</some-element>
+                    <some-element *ngSwitchCase="3">{{"Banned" | translate}}</some-element>
+                  </container-element>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="update">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                  <a *ngIf="checkClaim('UpdateUserCommand')" (click)="getUserByAcc(element.account)" data-bs-toggle="modal" data-bs-target="#user" class="btn btn-sm btn-primary">{{"Update" | translate}}</a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <th mat-cell *matCellDef="let element">
+                  <a *ngIf="checkClaim('DeleteUserCommand')" (click)="deleteUser(element.account)" class="btn btn-sm btn-danger">{{"Delete" | translate}}</a>
+                </th>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              <tr class="mat-row" *matNoDataRow style="text-align: center;">
+                <td class="mat-cell" colspan="4">{{'NoRecordsFound' | translate}}</td>
+              </tr>
+              <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10, 25,50,100]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal modal-angular fade" id="user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <button type="button" #closeButton class="btn btn-secondary close float-end" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class=""></h4>
+          <div class="separator"></div>
+          <form [formGroup]="userAddForm" (ngSubmit)="updateUser()">
+            <div class="row">
+              <div class="col-md-6 py-2">
+                <div class="form-floating has-validation">
+                  <label for="uName">{{'Name'|translate}}</label>
+                  <input class="form-control" placeholder="{{'Name'|translate}}" type="text" name="name" id="uName" formControlName="name" [value]="user.name">
+                  <div class="invalid-feedback">{{'Required'| translate}}</div>
+                </div>
+              </div>
+  
+              <div class="col-md-6 py-2">
+                <div class="form-floating has-validation">
+                  <label for="uSurname">{{'Surname'|translate}}</label>
+                  <input class="form-control" placeholder="{{'Surname'|translate}}" type="text" name="surname" id="uSurname" formControlName="surname">
+                  <div class="invalid-feedback">{{'Required'| translate}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 py-2">
+                <div class="form-floating has-validation">
+                  <label for="uMobilePhones">{{'MobilePhones'|translate}}</label>
+                  <input class="form-control" placeholder="{{'MobilePhones'|translate}}" type="text" name="mobilePhones" id="uMobilePhones" formControlName="mobilePhones">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 py-2">
+                <div class="form-floating has-validation">
+                  <label for="uAddress">{{'Address'|translate}}</label>
+                  <input class="form-control" placeholder="{{'Adress'|translate}}" type="text" name="address" id="uAddress" formControlName="address">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 py-2">
+                <div class="form-floating has-validation">
+                  <label for="uNotes">{{'Notes'|translate}}</label>
+                  <input class="form-control" placeholder="{{'Notes'|translate}}" type="text" name="notes" id="uNotes" formControlName="notes">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 py-2">
+                <div class="form-floating has-validation">
+                  <label for="uGender">{{'Gender'|translate}}</label>
+                  <select class="form-select" name="gender" formControlName="gender" id="uGender">
+                    <option value="0">{{"Unknown" | translate}}</option>
+                    <option value="1">{{"Male" | translate}}</option>
+                    <option value="2">{{"Female" | translate}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 py-2">
+                <div class="form-floating has-validation">
+                  <label for="uStatus">{{'Status'|translate}}</label>
+                  <select class="form-select" name="status" formControlName="status" id="uStatus">
+                    <option value="0">{{"NotActivated" | translate}}</option>
+                    <option value="1">{{"Activated" | translate}}</option>
+                    <option value="2">{{"Deleted" | translate}}</option>
+                    <option value="3">{{"Banned" | translate}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button mat-raised-button type="submit" class="btn btn-success">{{'Save' |translate}}</button>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

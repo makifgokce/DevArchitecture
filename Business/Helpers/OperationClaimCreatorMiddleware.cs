@@ -1,15 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Business.BusinessAspects;
+﻿using Business.BusinessAspects;
 using Business.Fakes.Handlers.Authorizations;
+using Business.Fakes.Handlers.Group;
 using Business.Fakes.Handlers.OperationClaims;
 using Business.Fakes.Handlers.UserClaims;
+using Business.Fakes.Handlers.UserGroup;
+using Business.Handlers.GroupClaims.Commands;
+using Business.Handlers.Groups.Commands;
+using Business.Handlers.UserGroups.Commands;
 using Core.Utilities.IoC;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Business.Helpers
 {
@@ -25,18 +30,29 @@ namespace Business.Helpers
                     ClaimName = operationName
                 });
             }
+            await mediator.Send(new CreateGroupIntervalCommand
+            {
+                GroupName = "Admin"
+            });
 
             var operationClaims = (await mediator.Send(new GetOperationClaimsInternalQuery())).Data;
             var user = await mediator.Send(new RegisterUserInternalCommand
             {
-                FullName = "System Admin",
+                Name = "System",
+                Surname = "Admin",
                 Password = "Q1w212*_*",
                 Email = "admin@adminmail.com",
+                Account = "admin",
             });
-            await mediator.Send(new CreateUserClaimsInternalCommand
+            await mediator.Send(new CreateGroupClaimsInternalCommand
+            {
+                GroupId = 1,
+                OperationClaims = operationClaims
+            });
+            await mediator.Send(new CreateUserGroupIntervalCommand
             {
                 UserId = 1,
-                OperationClaims = operationClaims
+                GroupId = 1
             });
         }
 

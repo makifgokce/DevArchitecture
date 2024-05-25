@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="card bg-dark text-white my-3">
+        <div class="card-header">
+            {{post.title}}
+        </div>
+        <div class="card-body" [innerHTML]="post.body"></div>
+        <div class="card-footer">
+            <div class="d-flex">
+                <div class="col col-md-3">
+                    <a [routerLink]="['/user', post.authorName] | localize" class="btn btn-sm text-white">@{{post.authorName}}</a>
+                </div>
+                <div class="col col-md-6">
+                    <a class="badge bg-secondary me-1 my-1" *ngFor="let k of keywords()">{{k.trim()}}</a>
+                </div>
+                <div class="col col-md-3">
+                    <span class="float-end">{{post.updatedDate| date: 'dd.MM.yyyy HH:ss'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

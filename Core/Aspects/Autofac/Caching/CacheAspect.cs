@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Text;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using Core.CrossCuttingConcerns.Caching;
 using Core.Utilities.Interceptors;
 using Core.Utilities.IoC;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
+using System.Text;
 
 namespace Core.Aspects.Autofac.Caching
 {
@@ -15,7 +15,7 @@ namespace Core.Aspects.Autofac.Caching
     {
         private readonly int _duration;
         private readonly ICacheManager _cacheManager;
-        
+
         public CacheAspect(int duration = 60)
         {
             _duration = duration;
@@ -46,9 +46,7 @@ namespace Core.Aspects.Autofac.Caching
             {
                 var paramValues = arg.GetType().GetProperties()
                     .Select(p => p.GetValue(arg)?.ToString() ?? string.Empty);
-                var enumerable = paramValues.ToList();
-                if(enumerable.Any(w => w.Contains("Cancellation"))) continue;
-                sb.Append(string.Join('_', enumerable));
+                sb.Append(string.Join('_', paramValues));
             }
 
             return sb.ToString();

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Business.Handlers.Authorizations.Commands;
+﻿using Business.Handlers.Authorizations.Commands;
 using Business.Handlers.Authorizations.Queries;
 using Business.Handlers.Users.Commands;
 using Core.Utilities.Results;
@@ -7,8 +6,7 @@ using Core.Utilities.Security.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Entities.Dtos;
+using System.Threading.Tasks;
 using IResult = Core.Utilities.Results.IResult;
 
 namespace WebAPI.Controllers

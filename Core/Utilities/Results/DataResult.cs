@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace Core.Utilities.Results
+﻿namespace Core.Utilities.Results
 {
-    [Serializable]
     public class DataResult<T> : Result, IDataResult<T>
     {
         public DataResult(T data, bool success, string message)

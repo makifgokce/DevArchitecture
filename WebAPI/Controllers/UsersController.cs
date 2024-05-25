@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Business.Handlers.Users.Commands;
+﻿using Business.Handlers.Users.Commands;
 using Business.Handlers.Users.Queries;
 using Core.Entities.Dtos;
+using Core.Utilities.Results;
+using Entities.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Entities.Dtos;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -23,14 +25,28 @@ namespace WebAPI.Controllers
         /// <return>Users List</return>
         /// <response code="200"></response>
         [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResult<IEnumerable<UserDto>>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet]
-        public async Task<IActionResult> GetList()
+        [HttpGet()]
+        public async Task<IActionResult> GetList([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetUsersQuery()));
+            return GetResponseOnlyResultData(await Mediator.Send(new GetUsersQuery() { PageSize = pageSize, PageNumber = pageNumber}));
         }
 
+        /// <summary>
+        /// List Users
+        /// </summary>
+        /// <remarks>bla bla bla Users</remarks>
+        /// <return>Users List</return>
+        /// <response code="200"></response>
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDto>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [HttpGet("Data")]
+        public async Task<IActionResult> GetUser()
+        {
+            return GetResponseOnlyResultData(await Mediator.Send(new GetUserDataQuery()));
+        }
         /// <summary>
         /// User Lookup
         /// </summary>
@@ -52,13 +68,14 @@ namespace WebAPI.Controllers
         /// <remarks>bla bla bla </remarks>
         /// <return>Users List</return>
         /// <response code="200"></response>
+        [AllowAnonymous]
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{account}")]
+        public async Task<IActionResult> GetByAccount([FromRoute] string account)
         {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetUserQuery { UserId = id }));
+            return GetResponseOnlyResultData(await Mediator.Send(new GetUserQuery { Account = account }));
         }
 
         /// <summary>
@@ -85,25 +102,39 @@ namespace WebAPI.Controllers
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateUserDto updateUserDto)
+        [HttpPut("{account}")]
+        public async Task<IActionResult> Update([FromRoute] string account, [FromBody] UpdateUserDto updateUserDto)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateUserCommand{UserId = updateUserDto.UserId,Email = updateUserDto.Email,FullName = updateUserDto.FullName, MobilePhones = updateUserDto.MobilePhones, Address = updateUserDto.Address,Notes = updateUserDto.Notes}));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateUserCommand { Account = account, Email = updateUserDto.Email, Name = updateUserDto.Name, Surname = updateUserDto.Surname, MobilePhones = updateUserDto.MobilePhones, Address = updateUserDto.Address, Notes = updateUserDto.Notes, BirtDate = updateUserDto.BirthDate }));
         }
 
         /// <summary>
-        /// Delete User.
+        /// Update User.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="updateUserDto"></param>
         /// <returns></returns>
         [Consumes("application/json")]
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        [HttpPut("cid")]
+        public async Task<IActionResult> UpdateCid([FromBody] UpdateCidDto updateUserDto)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteUserCommand{ UserId = id }));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateUserCidCommand { CitizenId = updateUserDto.CitizenId, Name = updateUserDto.Name, Surname = updateUserDto.Surname, BirthDate = updateUserDto.BirthDate }));
+        }
+        /// <summary>
+        /// Delete User.
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        [Consumes("application/json")]
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [HttpDelete("{account}")]
+        public async Task<IActionResult> Delete([FromRoute] string account)
+        {
+            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteUserCommand { Account = account }));
         }
     }
 }

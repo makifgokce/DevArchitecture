@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Business.Handlers.GroupClaims.Commands;
+﻿using Business.Handlers.GroupClaims.Commands;
 using Business.Handlers.GroupClaims.Queries;
 using Core.Entities.Concrete;
 using Core.Entities.Dtos;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Entities.Dtos;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -44,7 +44,7 @@ namespace WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupClaim))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById( int id)
+        public async Task<IActionResult> GetById(int id)
         {
             return GetResponseOnlyResultMessage(await Mediator.Send(new GetGroupClaimQuery { Id = id }));
         }
@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<SelectionItem>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("groups/{id}")]
-        public async Task<IActionResult> GetGroupClaimsByGroupId([FromRoute]int id)
+        public async Task<IActionResult> GetGroupClaimsByGroupId([FromRoute] int id)
         {
             return GetResponseOnlyResultData(
                 await Mediator.Send(new GetGroupClaimsLookupByGroupIdQuery { GroupId = id }));
@@ -92,7 +92,7 @@ namespace WebAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateGroupClaimDto updateGroupClaimDto)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateGroupClaimCommand{ Id = updateGroupClaimDto.Id, GroupId = updateGroupClaimDto.GroupId, ClaimIds = updateGroupClaimDto.ClaimIds }));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateGroupClaimCommand { Id = updateGroupClaimDto.Id, GroupId = updateGroupClaimDto.GroupId, ClaimIds = updateGroupClaimDto.ClaimIds }));
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteGroupClaimCommand{Id = id}));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteGroupClaimCommand { Id = id }));
         }
     }
 }

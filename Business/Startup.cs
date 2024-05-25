@@ -3,8 +3,6 @@ using Business.Constants;
 using Business.DependencyResolvers;
 using Business.Fakes.DArch;
 using Business.Services.Authentication;
-using Core.CrossCuttingConcerns.Caching;
-using Core.CrossCuttingConcerns.Caching.Microsoft;
 using Core.DependencyResolvers;
 using Core.Extensions;
 using Core.Utilities.ElasticSearch;
@@ -26,15 +24,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Security.Claims;
 using System.Security.Principal;
-using Core.Utilities.TaskScheduler;
-using Core.Utilities.TaskScheduler.Hangfire;
-using Core.Utilities.TaskScheduler.Hangfire.Models;
-using Hangfire;
-using Hangfire.InMemory;
-using Hangfire.PostgreSql;
-using Hangfire.RecurringJobExtensions;
-using Hangfire.SqlServer;
-using Microsoft.EntityFrameworkCore.InMemory.Infrastructure.Internal;
 
 namespace Business
 {
@@ -74,64 +63,11 @@ namespace Business
 
             services.AddSingleton<ConfigurationManager>();
 
-
             services.AddTransient<ITokenHelper, JwtHelper>();
             services.AddTransient<IElasticSearch, ElasticSearchManager>();
 
             services.AddTransient<IMessageBrokerHelper, MqQueueHelper>();
             services.AddTransient<IMessageConsumer, MqConsumerHelper>();
-
-            var taskSchedulerConfig = Configuration.GetSection("TaskSchedulerOptions").Get<TaskSchedulerConfig>();
-
-            if (taskSchedulerConfig.Enabled)
-            {
-                services.AddHangfire(config =>
-                {
-                    config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180);
-                    config.UseSimpleAssemblyNameTypeSerializer();
-                    config.UseRecommendedSerializerSettings();
-                    config.UseSerilogLogProvider();
-                    config.UseDefaultActivator();
-                    config.UseRecurringJob(typeof(BuildinRecurringJobs));
-                    if (!string.IsNullOrWhiteSpace(
-                            taskSchedulerConfig.RecurringJobsJsonFilePath))
-                    {
-                        config.UseRecurringJob(taskSchedulerConfig.RecurringJobsJsonFilePath);
-                    }
-
-                    switch (taskSchedulerConfig.StorageType)
-                    {
-                        case "postgresql":
-                            var postgreSqlStorageOptions = new PostgreSqlStorageOptions
-                            {
-                                PrepareSchemaIfNecessary = true
-                            };
-                            config.UsePostgreSqlStorage(
-                                configure => configure.UseNpgsqlConnection(taskSchedulerConfig.ConnectionString),
-                                postgreSqlStorageOptions);
-                            break;
-                        case "mssql":
-                            var sqlServerStorageOptions = new SqlServerStorageOptions
-                            {
-                                PrepareSchemaIfNecessary = true
-                            };
-                            config.UseSqlServerStorage(taskSchedulerConfig.ConnectionString,
-                                sqlServerStorageOptions);
-                            break;
-                        case "inMemory":
-                            var inMemoryOptions = new InMemoryStorageOptions
-                            {
-                                DisableJobSerialization = false
-                            };
-                            config.UseInMemoryStorage(inMemoryOptions);
-                            break;
-                    }
-                });
-
-                services.AddHangfireServer();
-                services.AddTransient<IJobService, HangfireJobService>();
-                services.AddTransient<IRecurringJobService, HangfireRecurringJobService>();
-            }
 
             services.AddAutoMapper(typeof(ConfigurationManager));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -162,6 +98,8 @@ namespace Business
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
 
             services.AddDbContext<ProjectDbContext, DArchInMemory>(ServiceLifetime.Transient);
             services.AddSingleton<MongoDbContextBase, MongoDbContext>();
@@ -184,7 +122,9 @@ namespace Business
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
-            services.AddDbContext<ProjectDbContext>();
+            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
+            services.AddDbContext<ProjectDbContext, MsDbContext>();
 
             services.AddSingleton<MongoDbContextBase, MongoDbContext>();
         }
@@ -205,9 +145,11 @@ namespace Business
             services.AddTransient<IOperationClaimRepository, OperationClaimRepository>();
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
 
 
-            services.AddDbContext<ProjectDbContext>();
+            services.AddDbContext<ProjectDbContext, MsDbContext>();
 
             services.AddSingleton<MongoDbContextBase, MongoDbContext>();
         }

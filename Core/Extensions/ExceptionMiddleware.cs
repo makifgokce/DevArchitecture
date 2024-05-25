@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Core.Utilities.Messages;
+using FluentValidation;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Net;
 using System.Security;
 using System.Threading.Tasks;
-using Core.Utilities.Messages;
-using FluentValidation;
-using Microsoft.AspNetCore.Http;
 
 namespace Core.Extensions
 {

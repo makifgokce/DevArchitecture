@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Business.Handlers.Translates.Commands;
+﻿using Business.Handlers.Translates.Commands;
 using Business.Handlers.Translates.Queries;
 using Core.Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Entities.Dtos;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -104,7 +104,7 @@ namespace WebAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateTranslateDto updateTranslateDto)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateTranslateCommand{Id = updateTranslateDto.Id, LangId = updateTranslateDto.LangId, Value = updateTranslateDto.Value,Code = updateTranslateDto.Code }));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new UpdateTranslateCommand { Id = updateTranslateDto.Id, LangId = updateTranslateDto.LangId, Value = updateTranslateDto.Value, Code = updateTranslateDto.Code }));
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteTranslateCommand{Id = id}));
+            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteTranslateCommand { Id = id }));
         }
     }
 }

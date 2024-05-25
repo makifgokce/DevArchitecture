@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Business.Constants;
 using Core.Aspects.Autofac.Logging;
 using Core.CrossCuttingConcerns.Caching;
@@ -11,6 +7,9 @@ using Core.Utilities.Results;
 using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using MediatR;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Business.Handlers.Authorizations.Queries
 {
@@ -41,16 +40,16 @@ namespace Business.Handlers.Authorizations.Queries
                 }
 
 
-				var claims = _userRepository.GetClaims(userToCheck.UserId);
-				_cacheManager.Remove($"{CacheKeys.UserIdForClaim}={userToCheck.UserId}");
-				_cacheManager.Add($"{CacheKeys.UserIdForClaim}={userToCheck.UserId}", claims.Select(x => x.Name));
-				var accessToken = _tokenHelper.CreateToken<AccessToken>(userToCheck);
-				userToCheck.RefreshToken = accessToken.RefreshToken;
-				_userRepository.Update(userToCheck);
-				await _userRepository.SaveChangesAsync();
-				return new SuccessDataResult<AccessToken>(accessToken, Messages.SuccessfulLogin);
-			}
-		}
-	}
+                var claims = _userRepository.GetClaims(userToCheck.UserId);
+                _cacheManager.Remove($"{CacheKeys.UserIdForClaim}={userToCheck.UserId}");
+                _cacheManager.Add($"{CacheKeys.UserIdForClaim}={userToCheck.UserId}", claims.Select(x => x.Name));
+                var accessToken = _tokenHelper.CreateToken<AccessToken>(userToCheck);
+                userToCheck.RefreshToken = accessToken.RefreshToken;
+                _userRepository.Update(userToCheck);
+                await _userRepository.SaveChangesAsync();
+                return new SuccessDataResult<AccessToken>(accessToken, Messages.SuccessfulLogin);
+            }
+        }
+    }
 }
 

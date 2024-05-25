@@ -39,7 +39,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="7.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
@@ -51,7 +50,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.3" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
 	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>
 

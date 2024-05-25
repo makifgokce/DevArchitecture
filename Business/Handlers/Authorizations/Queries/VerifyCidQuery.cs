@@ -1,10 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Business.Adapters.PersonService;
+﻿using Business.Adapters.PersonService;
 using Business.Constants;
 using Core.Utilities.Results;
 using Entities.Dtos;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Business.Handlers.Authorizations.Queries
 {

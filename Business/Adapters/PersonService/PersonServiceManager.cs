@@ -1,6 +1,6 @@
-﻿using System.Globalization;
+﻿using Entities.Dtos;
+using System.Globalization;
 using System.Threading.Tasks;
-using Entities.Dtos;
 using wsKPSPublic;
 
 namespace Business.Adapters.PersonService

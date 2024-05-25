@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Business.BusinessAspects;
+﻿using Business.BusinessAspects;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Logging;
 using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
@@ -9,12 +6,15 @@ using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using MediatR;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Business.Handlers.GroupClaims.Queries
 {
     public class GetGroupClaimsQuery : IRequest<IDataResult<IEnumerable<GroupClaim>>>
     {
-        public class  GetGroupClaimsQueryHandler : IRequestHandler<GetGroupClaimsQuery, IDataResult<IEnumerable<GroupClaim>>>
+        public class GetGroupClaimsQueryHandler : IRequestHandler<GetGroupClaimsQuery, IDataResult<IEnumerable<GroupClaim>>>
         {
             private readonly IGroupClaimRepository _groupClaimRepository;
 

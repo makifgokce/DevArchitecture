@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using Core.Entities.Concrete;
+﻿using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using MediatR;
+using System.Text.RegularExpressions;
 
 namespace Business.Services.Authentication.Model
 {

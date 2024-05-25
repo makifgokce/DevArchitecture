@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using Core.Utilities.IoC;
-using Microsoft.AspNetCore.Http;
+﻿using Core.Utilities.IoC;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Extensions
 {
