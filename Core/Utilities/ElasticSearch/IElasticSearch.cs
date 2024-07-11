@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Core.Utilities.ElasticSearch.Models;
+﻿using Core.Utilities.ElasticSearch.Models;
 using Core.Utilities.Results;
 using Nest;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Core.Utilities.ElasticSearch
 {

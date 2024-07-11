@@ -5,6 +5,7 @@ using Core.Utilities.Results;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using System.Text;
 
 namespace Core.Utilities.MessageBrokers.RabbitMq;
 

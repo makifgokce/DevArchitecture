@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Castle.DynamicProxy;
+using System;
 using System.Threading.Tasks;
-using Castle.DynamicProxy;
 
 namespace Core.Utilities.Interceptors
 {

@@ -3,8 +3,6 @@ using Business.Constants;
 using Business.DependencyResolvers;
 using Business.Fakes.DArch;
 using Business.Services.Authentication;
-using Core.CrossCuttingConcerns.Caching;
-using Core.CrossCuttingConcerns.Caching.Microsoft;
 using Core.DependencyResolvers;
 using Core.Extensions;
 using Core.Utilities.ElasticSearch;
@@ -26,7 +24,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Security.Claims;
 using System.Security.Principal;
-using Core.Utilities.MessageBrokers;
 using Core.Utilities.TaskScheduler;
 using Core.Utilities.TaskScheduler.Hangfire;
 using Core.Utilities.TaskScheduler.Hangfire.Models;
@@ -74,7 +71,6 @@ namespace Business
             services.AddTransient<IAuthenticationCoordinator, AuthenticationCoordinator>();
 
             services.AddSingleton<ConfigurationManager>();
-
 
             services.AddTransient<ITokenHelper, JwtHelper>();
             services.AddTransient<IElasticSearch, ElasticSearchManager>();
