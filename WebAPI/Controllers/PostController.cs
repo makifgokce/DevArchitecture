@@ -2,6 +2,7 @@ using Business.Handlers.Posts.Commands;
 using Business.Handlers.Posts.Queries;
 using Business.Handlers.Users.Queries;
 using Core.Entities.Dtos;
+using Core.Utilities.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -66,12 +67,12 @@ public class PostController : BaseApiController
     /// <response code="200"></response>
     [AllowAnonymous]
     [Produces("application/json", "text/plain")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDto>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResult<IEnumerable<PostDto>>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
     [HttpGet()]
-    public async Task<IActionResult> GetList()
+    public async Task<IActionResult> GetList([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        return GetResponseOnlyResultData(await Mediator.Send(new GetPostsQuery()));
+        return GetResponseOnlyResultData(await Mediator.Send(new GetPostsQuery() { PageSize = pageSize, PageNumber = pageNumber }));
     }
     /// <summary>
     /// Get Post

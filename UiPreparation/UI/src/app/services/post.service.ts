@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/post';
 import { Observable } from 'rxjs';
@@ -12,8 +12,9 @@ import { DataTable } from '../models/datatable';
 })
 export class PostService {
   constructor(private http: HttpEntityRepositoryService<Post>, private httpClient: HttpClient, private alertify: AlertifyService) { }
-  GetPosts(): Observable<Post[]>{
-    return this.http.getAll("/Post");
+  GetPosts(params?: any): Observable<DataTable>{
+    return this.httpClient.get<DataTable>(`${environment.getApiUrl}/Post`, 
+    {params: params});
   }
   GetPost(id:number, slug:string): Observable<Post> {
     return this.http.get("/Post", id, slug);

@@ -30,12 +30,6 @@ export class AccountComponent {
     var account = auth.getUser().account
     this.createUserForm()
     u.GetUserData().subscribe(data => this.user = data);
-    u.GetUsers().subscribe(data => {
-      this.userList = data;
-      this.dataSource = new MatTableDataSource(this.userList.data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
   }
   createUserForm(user: User = new User){
     this.userAddForm = new FormGroup({
@@ -90,6 +84,15 @@ export class AccountComponent {
 
     Object.keys(group.controls).forEach((key) => {
       group.get(key)?.setErrors(null);
+    });
+  }
+  getUsers(){
+    this.u.GetUsers().subscribe(data => {
+      this.userList = data;
+      this.dataSource = new MatTableDataSource(this.userList.data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      debugger
     });
   }
 

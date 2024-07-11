@@ -2,6 +2,23 @@
   <div class="d-grid my-3">
     <a class="btn btn-primary d-inline-flex justify-content-center" [routerLink]="['/post', 'add'] | localize" *ngIf="checkClaim('CreatePostCommand')"><i class="material-symbols-outlined">add</i>{{"Create" | localize}}</a>
   </div>
+  <div class="card mb-4" *ngFor="let p of posts.data">
+    <div class="card-header">
+      <a class="btn btn-sm text-white" [routerLink]="['/post', p.id, p.slug] | localize">{{p.title}}</a>
+    </div>
+    <div class="card-body">
+      <p *ngFor="let b of p.body.split(pattern, 5)" [innerHTML]="b"></p>
+    </div>
+    <div class="card-footer">
+      <a class="btn btn-sm text-white" [routerLink]="['/user', p.authorName] | localize">{{p.authorName}}</a> <small class="text-muted ms-auto">{{p.publishDate | date:'dd.MM.yyyy HH:ss'}}</small>
+    </div>
+  </div>
+  <div class="row">
+    <button type="button" class="btn btn-lg btn-primary" (click)="loadMore()">
+        {{"LoadMore" | translate}}
+    </button>
+  </div>
+  <!--
   <div class="table-responsive">
     <table mat-table class="mat-elevation-z8" [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="title">
@@ -43,4 +60,5 @@
     </table>
     <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10, 25,50,100]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
   </div>
+  -->
 </div>

@@ -21,7 +21,7 @@
         <div class="card-header">
           <h5 class="card-title mb-0">{{"Admin" | translate}}</h5>
         </div>
-          <a class="list-group-item list-group-item-action" *ngIf="checkClaim('GetUsersQuery')" data-bs-toggle="list" href="#clients" role="tab" aria-selected="false" tabindex="-1">
+          <a class="list-group-item list-group-item-action" *ngIf="checkClaim('GetUsersQuery')" data-bs-toggle="list" href="#clients" role="tab" aria-selected="false" tabindex="-1" (click)="getUsers()">
             {{"Users" | translate}}
           </a>
         </div>
