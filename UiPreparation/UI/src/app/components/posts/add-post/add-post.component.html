@@ -1,0 +1,64 @@
+<div class="container">
+  <form [formGroup]="addPost" (submit)="save()">
+    <div class="row">
+      <div class="col-md-12 py-2">
+        <div class="input-group has-validation">
+          <input class="form-control" [class]="{'is-valid': postTitle?.valid && (postTitle?.touched || postTitle?.dirty), 'is-invalid': !postTitle?.valid && (postTitle?.touched || postTitle?.dirty)}" type="text" [placeholder]="'Title' | localize" formControlName="postTitle">
+          <div class="invalid-feedback" *ngIf="!postTitle?.errors?.['pattern'] || !postTitle?.valid && (postTitle?.touched || postTitle?.dirty)">
+            {{ 'Required' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 py-2">
+        <div class="input-group has-validation">
+          <editor [init]="editorConfig" (ngModel)="body" class="form-control" formControlName="body"></editor>
+          <div class="invalid-feedback" *ngIf="!body?.errors?.['pattern'] || !body?.valid && (body?.touched || body?.dirty)">
+            {{ 'Required' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 py-2">
+        <div class="input-group has-validation">
+          <input type="text" class="form-control"  [placeholder]="'Slug' | localize" formControlName="slug">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 py-2">
+        <div class="input-group has-validation">
+          <input type="text" class="form-control" [class]="{'is-valid': description?.valid && (description?.touched || description?.dirty), 'is-invalid': !description?.valid && (description?.touched || description?.dirty)}" [placeholder]="'Description' | localize" formControlName="description">
+          <div class="invalid-feedback" *ngIf="!description?.errors?.['pattern'] || !description?.valid && (description?.touched || description?.dirty)">
+            {{ 'Required' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 py-2">
+        <div class="input-group has-validation">
+          <input type="text" class="form-control" [class]="{'is-valid': keywords?.valid && (keywords?.touched || keywords?.dirty), 'is-invalid': !keywords?.valid && (keywords?.touched || keywords?.dirty)}" [placeholder]="'Keywords' | localize" formControlName="keywords">
+          <div class="invalid-feedback" *ngIf="!keywords?.errors?.['pattern'] || !keywords?.valid && (keywords?.touched || keywords?.dirty)">
+            {{ 'Required' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 py-2">
+        <div class="input-group has-validation">
+          <input class="form-control" type="datetime-local" formControlName="publishDate">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 py-2 d-flex justify-content-evenly">
+        <button type="submit" class="btn btn-success" [disabled]="!addPost.valid">{{'Save'| translate}}</button>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </form>
+</div>

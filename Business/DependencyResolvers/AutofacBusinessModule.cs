@@ -1,10 +1,10 @@
-﻿using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
 using FluentValidation;
 using MediatR;
+using System.Reflection;
 using Module = Autofac.Module;
 
 namespace Business.DependencyResolvers

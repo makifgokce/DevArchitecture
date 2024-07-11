@@ -1,9 +1,8 @@
-﻿using System;
-using System.Transactions;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
 using Core.Utilities.IoC;
 using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 
 namespace Core.Aspects.Autofac.Transaction
 {

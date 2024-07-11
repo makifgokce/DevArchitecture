@@ -3,8 +3,6 @@ using Business.Constants;
 using Business.DependencyResolvers;
 using Business.Fakes.DArch;
 using Business.Services.Authentication;
-using Core.CrossCuttingConcerns.Caching;
-using Core.CrossCuttingConcerns.Caching.Microsoft;
 using Core.DependencyResolvers;
 using Core.Extensions;
 using Core.Utilities.ElasticSearch;
@@ -82,7 +80,7 @@ namespace Business
             services.AddTransient<IMessageBrokerHelper, RMqQueueHelper>();
             services.AddTransient<IMessageConsumer, MqConsumerHelper>();
 
-            var taskSchedulerConfig = Configuration.GetSection("TaskSchedulerOptions").Get<TaskSchedulerConfig>();
+var taskSchedulerConfig = Configuration.GetSection("TaskSchedulerOptions").Get<TaskSchedulerConfig>();
 
             if (taskSchedulerConfig.Enabled)
             {
@@ -133,7 +131,6 @@ namespace Business
                 services.AddTransient<IJobService, HangfireJobService>();
                 services.AddTransient<IRecurringJobService, HangfireRecurringJobService>();
             }
-
             services.AddAutoMapper(typeof(ConfigurationManager));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(typeof(BusinessStartup).GetTypeInfo().Assembly);
@@ -163,6 +160,8 @@ namespace Business
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
 
             services.AddDbContext<ProjectDbContext, DArchInMemory>(ServiceLifetime.Transient);
             services.AddSingleton<MongoDbContextBase, MongoDbContext>();
@@ -185,7 +184,9 @@ namespace Business
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
-            services.AddDbContext<ProjectDbContext>();
+            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
+            services.AddDbContext<ProjectDbContext, MsDbContext>();
 
             services.AddSingleton<MongoDbContextBase, MongoDbContext>();
         }
@@ -206,9 +207,11 @@ namespace Business
             services.AddTransient<IOperationClaimRepository, OperationClaimRepository>();
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
 
 
-            services.AddDbContext<ProjectDbContext>();
+            services.AddDbContext<ProjectDbContext, MsDbContext>();
 
             services.AddSingleton<MongoDbContextBase, MongoDbContext>();
         }

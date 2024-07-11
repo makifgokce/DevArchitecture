@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using Business.Constants;
+﻿using Business.Constants;
 using Castle.DynamicProxy;
 using Core.CrossCuttingConcerns.Caching;
 using Core.Utilities.Interceptors;
 using Core.Utilities.IoC;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security;
 
 namespace Business.BusinessAspects
 {
@@ -20,12 +21,14 @@ namespace Business.BusinessAspects
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICacheManager _cacheManager;
+        private readonly bool _checkOperation = true;
 
 
-        public SecuredOperation()
+        public SecuredOperation(bool check = true)
         {
             _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
             _cacheManager = ServiceTool.ServiceProvider.GetService<ICacheManager>();
+            _checkOperation = check;
         }
 
         protected override void OnBefore(IInvocation invocation)
@@ -37,16 +40,18 @@ namespace Business.BusinessAspects
             {
                 throw new SecurityException(Messages.AuthorizationsDenied);
             }
-
-            var oprClaims = _cacheManager.Get<IEnumerable<string>>($"{CacheKeys.UserIdForClaim}={userId}");
-
-            var operationName = invocation.TargetType.ReflectedType.Name;
-            if (oprClaims.Contains(operationName))
+            if (_checkOperation)
             {
-                return;
+                var oprClaims = _cacheManager.Get<IEnumerable<string>>($"{CacheKeys.UserIdForClaim}={userId}");
+
+                var operationName = invocation.TargetType.ReflectedType.Name;
+                if (oprClaims != null && oprClaims.Contains(operationName))
+                {
+                    return;
+                }
+                throw new SecurityException(Messages.AuthorizationsDenied);
             }
 
-            throw new SecurityException(Messages.AuthorizationsDenied);
         }
     }
 }

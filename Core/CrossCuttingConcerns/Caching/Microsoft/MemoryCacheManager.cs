@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Core.Utilities.IoC;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using ServiceStack.Text;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Core.Utilities.IoC;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
-using ServiceStack.Text;
-using static ServiceStack.Diagnostics;
 
 namespace Core.CrossCuttingConcerns.Caching.Microsoft
 {
@@ -89,7 +88,7 @@ namespace Core.CrossCuttingConcerns.Caching.Microsoft
 
             var coherentStateValue = coherentState.GetValue(_cache);
             var cacheEntriesCollectionDefinition = coherentStateValue.GetType().GetProperty("EntriesCollection", BindingFlags.NonPublic | BindingFlags.Instance);
-      
+
 
             var cacheEntriesCollection = cacheEntriesCollectionDefinition.GetValue(coherentStateValue) as ICollection;
 

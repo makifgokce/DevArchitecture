@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using Core.CrossCuttingConcerns.Logging;
 using Core.CrossCuttingConcerns.Logging.Serilog;
 using Core.Utilities.Interceptors;
@@ -9,6 +7,8 @@ using Core.Utilities.Messages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace Core.Aspects.Autofac.Logging
 {
@@ -33,7 +33,7 @@ namespace Core.Aspects.Autofac.Logging
 
         protected override void OnBefore(IInvocation invocation)
         {
-            _loggerServiceBase?.Info(GetLogDetail(invocation));            
+            _loggerServiceBase?.Info(GetLogDetail(invocation));
         }
 
         private string GetLogDetail(IInvocation invocation)

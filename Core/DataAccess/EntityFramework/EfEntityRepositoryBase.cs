@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Entities.Concrete;
 using Core.Enums;
 using Core.Extensions;
 using Core.Utilities.Results;
 using Microsoft.EntityFrameworkCore;
 using ServiceStack;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Core.DataAccess.EntityFramework
 {
@@ -90,7 +90,7 @@ namespace Core.DataAccess.EntityFramework
             return new PagingResult<TEntity>(list.ToList(), totalCount, true, $"{totalCount} records listed.");
         }
 
-        
+
         public async Task<PagingResult<TEntity>> GetListForTableSearch(TableGlobalFilter globalFilter)
         {
             if (globalFilter == null)
@@ -118,7 +118,7 @@ namespace Core.DataAccess.EntityFramework
                 for (int i = 1; i < globalFilter.PropertyField.Count; i++)
                 {
                     var propertyName = globalFilter.PropertyField[i];
-                    
+
                     globalFilterPropertyField = Expression.PropertyOrField(parameterOfExpression, propertyName);
                     var globalFilterConstant = Expression.Call(Expression.Call(globalFilterPropertyField, toLowerMethod), containMethod, searchedValue);
 

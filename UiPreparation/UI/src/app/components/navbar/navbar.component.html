@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-dark user-select-none">
+    <div class="container">
+        <a class="me-1" [routerLink]="['/'] | localize" ><img src="./assets/img/favicon.ico" class="img-fluid logo" alt="Logo"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/post'] | localize">{{ "Posts" | translate }}</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" title="{{ 'Languages' | localize }}"><span class="material-symbols-outlined">notifications</span></a>
+                </li>
+                <li class="nav-item dropdown" routerLinkActive="active">
+                    <a class="nav-link dropdown-toggle" id="lang" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{ 'Languages' | localize }}"><span class="material-symbols-outlined">translate</span></a>
+                    <div class="dropdown-menu" aria-labelledby="lang">
+                        <a class="dropdown-item" (click)="changeLanguage('tr-TR')">Türkçe</a>
+                        <a class="dropdown-item" (click)="changeLanguage('en-US')">English</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown" routerLinkActive="active">
+                    <a class="nav-link dropdown-toggle" id="auth" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  title="{{ 'Account' | localize }}">
+                        <span class="material-symbols-outlined">manage_accounts</span></a>
+                    <div class="dropdown-menu" aria-labelledby="auth">
+                      <ng-container *ngIf="!isLoggedIn()">
+                        <a class="dropdown-item d-inline-flex justify-content-between" [routerLink]="['/login'] | localize"><span class="material-symbols-outlined">login</span> {{ "Login" | translate }}</a>
+                        <a class="dropdown-item d-inline-flex justify-content-between" [routerLink]="['/register'] | localize"><span class="material-symbols-outlined">person_add</span> {{ "Register" | translate }}</a>
+                      </ng-container>
+                      <ng-container *ngIf="isLoggedIn()">
+                        <a class="dropdown-item d-inline-flex justify-content-between" [routerLink]="['/account'] | localize"><span class="material-symbols-outlined">manage_accounts</span> {{ "Account" | translate }}</a>
+                        <a class="dropdown-item d-inline-flex justify-content-between" (click)="logOut()"><span class="material-symbols-outlined">logout</span> {{ "Logout" | translate }}</a>
+                      </ng-container>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+  </nav>

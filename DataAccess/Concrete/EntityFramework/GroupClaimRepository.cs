@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Core.DataAccess.EntityFramework;
+﻿using Core.DataAccess.EntityFramework;
 using Core.Entities.Concrete;
 using Core.Entities.Dtos;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -28,13 +28,13 @@ namespace DataAccess.Concrete.EntityFramework
         public async Task<IEnumerable<SelectionItem>> GetGroupClaimsSelectedList(int groupId)
         {
             var list = await (from gc in Context.GroupClaims
-                join oc in Context.OperationClaims on gc.ClaimId equals oc.Id
-                where gc.GroupId == groupId
-                select new SelectionItem()
-                {
-                    Id = oc.Id.ToString(),
-                    Label = oc.Name
-                }).ToListAsync();
+                              join oc in Context.OperationClaims on gc.ClaimId equals oc.Id
+                              where gc.GroupId == groupId
+                              select new SelectionItem()
+                              {
+                                  Id = oc.Id.ToString(),
+                                  Label = oc.Name
+                              }).ToListAsync();
 
             return list;
         }

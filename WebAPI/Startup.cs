@@ -1,12 +1,10 @@
-using System;
-using System.Globalization;
-using System.IO;
-using System.Text.Json.Serialization;
-using Business;
+﻿using Business;
 using Business.Helpers;
+using Business.Hubs;
 using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Core.Extensions;
 using Core.Utilities.IoC;
+using Core.Utilities.Results;
 using Core.Utilities.Security.Encyption;
 using Core.Utilities.Security.Jwt;
 using Core.Utilities.TaskScheduler.Hangfire.Models;
@@ -15,14 +13,21 @@ using HangfireBasicAuthenticationFilter;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System;
+using System.Globalization;
+using System.IO;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using ConfigurationManager = Business.ConfigurationManager;
 
 namespace WebAPI
@@ -32,6 +37,7 @@ namespace WebAPI
     /// </summary>
     public partial class Startup : BusinessStartup
     {
+        private readonly string PolicyName = "AllowOrigin";
         /// <summary>
         /// Constructor of <c>Startup</c>
         /// </summary>
@@ -72,8 +78,8 @@ namespace WebAPI
             services.AddCors(options =>
             {
                 options.AddPolicy(
-                    "AllowOrigin",
-                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                    PolicyName,
+                    builder => builder.WithOrigins("https://localhost:4200", "http://localhost:4200").AllowCredentials().AllowAnyMethod().AllowAnyHeader());
             });
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -92,6 +98,22 @@ namespace WebAPI
                         IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey),
                         ClockSkew = TimeSpan.Zero
                     };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                (path.StartsWithSegments("/hubs")))
+                            {
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
             services.AddSwaggerGen(c =>
             {
@@ -102,6 +124,12 @@ namespace WebAPI
             services.AddTransient<PostgreSqlLogger>();
             services.AddTransient<MsSqlLogger>();
             services.AddScoped<IpControlAttribute>();
+
+            services.AddSignalR(hubOptions =>
+            {
+                hubOptions.EnableDetailedErrors = true;
+                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(4);
+            });
 
             base.ConfigureServices(services);
         }
@@ -136,10 +164,12 @@ namespace WebAPI
 
             app.UseDeveloperExceptionPage();
 
+            app.UseWebSockets();
+
             app.ConfigureCustomExceptionMiddleware();
 
             _ = app.UseDbOperationClaimCreator();
-            
+
             if (!env.IsProduction())
             {
                 app.UseSwagger();
@@ -150,7 +180,7 @@ namespace WebAPI
                     c.DocExpansion(DocExpansion.None);
                 });
             }
-            app.UseCors("AllowOrigin");
+            app.UseCors(PolicyName);
 
             app.UseHttpsRedirection();
 
@@ -173,9 +203,10 @@ namespace WebAPI
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
             app.UseStaticFiles();
-
             var taskSchedulerConfig = Configuration.GetSection("TaskSchedulerOptions").Get<TaskSchedulerConfig>();
+
             
+
             if (taskSchedulerConfig.Enabled)
             {
                 app.UseHangfireDashboard(taskSchedulerConfig.Path, new DashboardOptions
@@ -192,7 +223,9 @@ namespace WebAPI
                 });
             }
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-        }
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/hubs/chatHub");
+            }
     }
 }
