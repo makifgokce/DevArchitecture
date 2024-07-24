@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Business.BusinessAspects;
+﻿using Business.BusinessAspects;
 using Business.Constants;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Logging;
@@ -10,17 +7,21 @@ using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Business.Handlers.Users.Commands
 {
     public class CreateUserCommand : IRequest<IResult>
     {
-        public int UserId { get; set; }
         public long CitizenId { get; set; }
-        public string FullName { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Account { get; set; }
         public string Email { get; set; }
         public string MobilePhones { get; set; }
-        public bool Status { get; set; }
+        public User.UserStatus Status { get; set; }
         public DateTime BirthDate { get; set; }
         public int Gender { get; set; }
         public DateTime RecordDate { get; set; }
@@ -45,17 +46,24 @@ namespace Business.Handlers.Users.Commands
             public async Task<IResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
             {
                 var isThereAnyUser = await _userRepository.GetAsync(u => u.Email == request.Email);
-
+                var isThereAnyAccount = await _userRepository.GetAsync(u => u.Account == request.Account);
                 if (isThereAnyUser != null)
                 {
                     return new ErrorResult(Messages.NameAlreadyExist);
                 }
 
+                if (isThereAnyAccount != null)
+                {
+                    return new ErrorResult(Messages.AccountAlreadyExist);
+                }
+
                 var user = new User
                 {
+                    Account = request.Account,
                     Email = request.Email,
-                    FullName = request.FullName,
-                    Status = true,
+                    Name = request.Name,
+                    Surname = request.Surname,
+                    Status = User.UserStatus.NotActivated,
                     Address = request.Address,
                     BirthDate = request.BirthDate,
                     CitizenId = request.CitizenId,

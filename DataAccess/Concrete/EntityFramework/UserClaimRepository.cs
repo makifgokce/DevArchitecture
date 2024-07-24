@@ -29,13 +29,13 @@ namespace DataAccess.Concrete.EntityFramework
         public async Task<IEnumerable<SelectionItem>> GetUserClaimSelectedList(int userId)
         {
             var list = await (from oc in Context.OperationClaims
-                join userClaims in Context.UserClaims on oc.Id equals userClaims.ClaimId
-                where userClaims.UserId == userId
-                select new SelectionItem()
-                {
-                    Id = oc.Id.ToString(),
-                    Label = oc.Name
-                }).ToListAsync();
+                            join userClaims in Context.UserClaims on oc.Id equals userClaims.ClaimId
+                            where userClaims.UserId == userId
+                            select new SelectionItem()
+                            {
+                                Id = oc.Id.ToString(),
+                                Label = oc.Name
+                            }).ToListAsync();
 
             return list;
         }

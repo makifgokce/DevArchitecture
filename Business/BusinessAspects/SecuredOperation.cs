@@ -20,12 +20,14 @@ namespace Business.BusinessAspects
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICacheManager _cacheManager;
+        private readonly bool _checkOperation = true;
 
 
-        public SecuredOperation()
+        public SecuredOperation(bool check = true)
         {
             _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
             _cacheManager = ServiceTool.ServiceProvider.GetService<ICacheManager>();
+            _checkOperation = check;
         }
 
         protected override void OnBefore(IInvocation invocation)
@@ -37,13 +39,15 @@ namespace Business.BusinessAspects
             {
                 throw new SecurityException(Messages.AuthorizationsDenied);
             }
-
-            var oprClaims = _cacheManager.Get<IEnumerable<string>>($"{CacheKeys.UserIdForClaim}={userId}");
-
-            var operationName = invocation.TargetType.ReflectedType.Name;
-            if (oprClaims.Contains(operationName))
+            if (_checkOperation)
             {
-                return;
+                var oprClaims = _cacheManager.Get<IEnumerable<string>>($"{CacheKeys.UserIdForClaim}={userId}");
+
+                var operationName = invocation.TargetType.ReflectedType.Name;
+                if (oprClaims.Contains(operationName))
+                {
+                    return;
+                }
             }
 
             throw new SecurityException(Messages.AuthorizationsDenied);

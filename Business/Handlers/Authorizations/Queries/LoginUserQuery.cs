@@ -12,12 +12,13 @@ using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using MediatR;
+using static Core.Entities.Concrete.User;
 
 namespace Business.Handlers.Authorizations.Queries
 {
     public class LoginUserQuery : IRequest<IDataResult<AccessToken>>
     {
-        public string Email { get; set; }
+        public string Account { get; set; }
         public string Password { get; set; }
 
         public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, IDataResult<AccessToken>>
@@ -38,11 +39,21 @@ namespace Business.Handlers.Authorizations.Queries
             [LogAspect(typeof(FileLogger))]
             public async Task<IDataResult<AccessToken>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
             {
-                var user = await _userRepository.GetAsync(u => u.Email == request.Email && u.Status);
+                var user = await _userRepository.GetAsync(u => u.Account == request.Account);
 
-                if (user == null)
+                if (user == null || user.Status == UserStatus.Deleted)
                 {
                     return new ErrorDataResult<AccessToken>(Messages.UserNotFound);
+                }
+
+                if (user.Status == UserStatus.NotActivated)
+                {
+                    return new ErrorDataResult<AccessToken>(Messages.UserNotActivated);
+                }
+
+                if (user.Status == UserStatus.Banned)
+                {
+                    return new ErrorDataResult<AccessToken>(Messages.UserBanned);
                 }
 
                 if (!HashingHelper.VerifyPasswordHash(request.Password, user.PasswordSalt, user.PasswordHash))

@@ -86,11 +86,13 @@ namespace Core.Utilities.Security.Jwt
                 claims.AddNameUniqueIdentifier(user.CitizenId.ToString());
             }
 
-            if (!string.IsNullOrEmpty(user.FullName))
+            if (!string.IsNullOrEmpty(user.Account))
             {
-                claims.AddName($"{user.FullName}");
+                claims.AddName($"{user.Account}");
             }
 
+            claims.Add(new Claim("Name", user.Name));
+            claims.Add(new Claim("Surname", user.Surname));
             claims.Add(new Claim(ClaimTypes.Role, user.AuthenticationProviderType));
 
 

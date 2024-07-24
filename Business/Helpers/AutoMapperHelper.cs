@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Entities.Concrete;
 using Core.Entities.Dtos;
+using Elasticsearch.Net;
 
 namespace Business.Helpers
 {
@@ -9,6 +10,8 @@ namespace Business.Helpers
         public AutoMapperHelper()
         {
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<Post, PostDto>().ReverseMap();
+            CreateMap<Message, MessageDto>().ReverseMap();
         }
     }
 }

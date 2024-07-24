@@ -20,22 +20,22 @@ namespace DataAccess.Concrete.EntityFramework
         public async Task<List<SelectionItem>> GetLanguagesLookUp()
         {
             var lookUp = await (from entity in Context.Languages
-                select new SelectionItem()
-                {
-                    Id = entity.Id,
-                    Label = entity.Name
-                }).ToListAsync();
+                                select new SelectionItem()
+                                {
+                                    Id = entity.Id,
+                                    Label = entity.Name
+                                }).ToListAsync();
             return lookUp;
         }
 
         public async Task<List<SelectionItem>> GetLanguagesLookUpWithCode()
         {
             var lookUp = await (from entity in Context.Languages
-                select new SelectionItem()
-                {
-                    Id = entity.Code.ToString(),
-                    Label = entity.Name
-                }).ToListAsync();
+                                select new SelectionItem()
+                                {
+                                    Id = entity.Code.ToString(),
+                                    Label = entity.Name
+                                }).ToListAsync();
             return lookUp;
         }
     }

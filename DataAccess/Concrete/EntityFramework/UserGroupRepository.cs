@@ -55,7 +55,7 @@ namespace DataAccess.Concrete.EntityFramework
                 select new SelectionItem()
                 {
                     Id = usr.UserId.ToString(),
-                    Label = usr.FullName
+                    Label = usr.Name + " " + usr.Surname
                 }).ToListAsync();
 
             return list;

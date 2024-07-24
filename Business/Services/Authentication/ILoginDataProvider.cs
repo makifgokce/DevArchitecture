@@ -38,6 +38,11 @@ namespace Business.Services.Authentication
         public long CitizenId { get; set; }
 
         /// <summary>
+        /// Applicant Account
+        /// </summary>
+        public string Account { get; set; }
+
+        /// <summary>
         /// Applicant Email
         /// </summary>
         public string Email { get; set; }

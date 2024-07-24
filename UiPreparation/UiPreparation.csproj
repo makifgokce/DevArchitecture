@@ -9,8 +9,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="UI\node_modules\**" />
+    <Compile Remove="UI\src\**" />
     <EmbeddedResource Remove="UI\node_modules\**" />
+    <EmbeddedResource Remove="UI\src\**" />
     <None Remove="UI\node_modules\**" />
+    <None Remove="UI\src\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UI\src\assets\i18n\" />
+    <Folder Include="UI\" />
   </ItemGroup>
 	
 </Project>
